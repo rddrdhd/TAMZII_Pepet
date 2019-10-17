@@ -37,9 +37,8 @@ public class Triangle {
     public Triangle() {
 
         // initialize vertex byte buffer for shape coordinates
-        ByteBuffer bb = ByteBuffer.allocateDirect(
-                // (number of coordinate values * 4 bytes per float)
-                triangleCoords.length * 4);
+        // (number of coordinate values * 4 bytes per float)
+        ByteBuffer bb = ByteBuffer.allocateDirect(triangleCoords.length * 4);
         // use the device hardware's native byte order
         bb.order(ByteOrder.nativeOrder());
 
