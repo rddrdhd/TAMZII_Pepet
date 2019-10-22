@@ -4,12 +4,15 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="redGlow">#F4511E</color>
+
+    <color name="white">#ffffff</color>
+    <color name="whiteAlmost">#ddeadd</color>
+
     <color name="gray66">#666666</color>
     <color name="gray42">#424242</color>
     <color name="gray29">#292929</color>
 
-    <color name="redGlow">#F4511E</color>
-
-    <color name="whiteAlmost">#ddeadd</color>
+    <color name="black">#000000</color>
     <color name="blackAlmost">#010101</color>
 </resources>
