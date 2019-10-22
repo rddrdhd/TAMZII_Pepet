@@ -8,4 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!-- Dark application theme. -->
+    <style name="DarkTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/gray42</item>
+        <item name="colorPrimaryDark">@color/gray66</item>
+        <item name="colorAccent">@color/redGlow</item>
+
+
+        <item name="android:background">@color/gray29</item>
+        <item name="android:textColor">@color/whiteAlmost</item>
+    </style>
+
+    <!-- Light application theme. -->
+    <style name="LightTheme" parent="DarkTheme">
+        <item name="colorPrimary">@color/whiteAlmost</item>
+
+
+        <item name="android:background">@color/whiteAlmost</item>
+        <item name="android:textColor">@color/blackAlmost</item>
+    </style>
+
 </resources>
