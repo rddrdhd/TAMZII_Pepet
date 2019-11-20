@@ -167,10 +167,10 @@ public class FullscreenActivity extends AppCompatActivity {
 
     public void back(View view){
 
-        String result="ok";
+        String result="from first";
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("result",result);
+        returnIntent.putExtra("First",result);
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }

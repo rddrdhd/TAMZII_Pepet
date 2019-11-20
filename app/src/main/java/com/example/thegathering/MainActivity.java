@@ -16,6 +16,8 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     Pet pet;
     TextView tw1;
+    TextView tw2;
+    TextView tw3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +25,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tw1 = findViewById(R.id.textView);
+        tw2 = findViewById(R.id.textView2);
+        tw3 = findViewById(R.id.textView3);
 
-        tw1.setText("Happ: "+pet.statHappy+", Fed:"+pet.statFed+", Heal: "+pet.statHealth);
 
         pet = new Pet();
 
+        tw1.setText("Happ: "+pet.statHappy);
+        tw2.setText("Fed:"+pet.statFed);
+        tw3.setText("Heal: "+pet.statHealth);
     }
 
     Handler handler = new Handler();
@@ -47,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 pet.statHappy--;
 
 
-                tw1.setText("Happ: "+pet.statHappy+", Fed:"+pet.statFed+", Heal: "+pet.statHealth);
+                tw1.setText("Happ: "+pet.statHappy);
+                tw2.setText("Fed:"+pet.statFed);
+                tw3.setText("Heal: "+pet.statHealth);
 
 
 
@@ -72,18 +80,47 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, FullscreenActivity.class);
         startActivityForResult(i, 1);
     }
+    public void secondAct(View view){
+        Intent i = new Intent(this, SecondActivity.class);
+        startActivityForResult(i, 2);
+    }
+    public void thirdAct(View view){
+        Intent i = new Intent(this, ThirdActivity.class);
+        startActivityForResult(i, 3);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("result");
+                String result=data.getStringExtra("First");
 
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "!onActivityResult!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "!onActivityResult!1", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (requestCode == 2) {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("Second");
+
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "!onActivityResult!2", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == 3) {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("Third");
+
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "!onActivityResult!3", Toast.LENGTH_SHORT).show();
             }
         }
     }//onActivityResult
