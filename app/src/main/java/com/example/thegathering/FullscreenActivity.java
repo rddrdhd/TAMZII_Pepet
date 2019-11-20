@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -16,7 +17,7 @@ import android.view.View;
 public class FullscreenActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 42;
     private final Handler mHideHandler = new Handler();
-    private View mToggleButton;
+    private Button mToggleButton;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -30,6 +31,39 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     };
 
+
+    private boolean mVisible;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fullscreen);
+
+        /* Fullscreen button listener */
+        mVisible = true;
+        mToggleButton = findViewById(R.id.fullscreen_button);
+        mToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggle();
+            }
+        });
+
+    }
+
+    //tmp
+    public void save(View view){
+
+        String result="from first";
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("First",result);
+        setResult(Activity.RESULT_OK,returnIntent);
+        finish();
+    }
+
+    /* ****************************************************************************************** */
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -41,25 +75,6 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     };
 
-    private boolean mVisible;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_fullscreen);
-
-        mVisible = true;
-        mToggleButton = findViewById(R.id.fullscreen_button);
-        mToggleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
-
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -91,16 +106,5 @@ public class FullscreenActivity extends AppCompatActivity {
         mVisible = true;
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
-    }
-
-
-    public void back(View view){
-
-        String result="from first";
-
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("First",result);
-        setResult(Activity.RESULT_OK,returnIntent);
-        finish();
     }
 }

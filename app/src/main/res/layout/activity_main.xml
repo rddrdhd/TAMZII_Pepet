@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="413dp"
+        android:layout_height="434dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,45 +36,55 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="fullscreenAct"
-                    android:text="FullscreenActivity" />
-
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="viewStart"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="fullscreenAct"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="FullscreenActivity"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="secondAct"
-                    android:text="Second activity" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="viewStart"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="secondAct"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="Second activity"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -81,22 +92,28 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="thirdAct"
-                    android:text="Third activity" />
-
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="viewStart"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="thirdAct"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="Third activity"
+                    android:textColor="@color/white"
+                    android:textColorLink="@color/white"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
 

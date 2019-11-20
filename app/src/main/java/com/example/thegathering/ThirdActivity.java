@@ -15,7 +15,8 @@ public class ThirdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_third);
     }
 
-    public void back(View view){
+    //tmp
+    public void save(View view){
 
         String result="from third";
 

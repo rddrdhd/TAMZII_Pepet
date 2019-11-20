@@ -15,7 +15,8 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
     }
 
-    public void back(View view){
+    //tmp
+    public void save(View view){
 
         String result="from second";
 
