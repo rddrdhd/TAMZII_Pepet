@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         pet = new Pet();
 
-        //for milliseconds
+        //for timestamps
         final long[] t = new long[2];
 
         updateTextViews();
@@ -47,22 +47,17 @@ public class MainActivity extends AppCompatActivity {
         imgPet.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                //TODO: cheer úměrně k timestamp
-                //t1=0;
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     t[0] = System.currentTimeMillis();
                     imgPet.setImageResource(R.drawable.happypepe);
-
-
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     t[1] = System.currentTimeMillis();
                     imgPet.setImageResource(R.drawable.smilepepe);
 
                     pet.love((int)(t[1]-t[0])/666); //hold longer than 0.66 sec
-
-                    updateTextViews();
                 }
+                updateTextViews();
                 return true;
             }
         });
@@ -98,8 +93,10 @@ public class MainActivity extends AppCompatActivity {
 
     /* ****************************************************************************************** */
     public void fullscreenAct(View view){
-        Intent i = new Intent(this, FullscreenActivity.class);
-        startActivityForResult(i, 1);
+        //Intent i = new Intent(this, FullscreenActivity.class);
+       // startActivityForResult(i, 1);
+        Intent i = new Intent(this, FirstActivity.class);
+        startActivity(i);
     }
 
     public void secondAct(View view){
