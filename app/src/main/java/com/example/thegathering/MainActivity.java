@@ -98,8 +98,10 @@ public class MainActivity extends AppCompatActivity {
 
     /* ****************************************************************************************** */
     public void fullscreenAct(View view){
-        Intent i = new Intent(this, FullscreenActivity.class);
-        startActivityForResult(i, 1);
+        //Intent i = new Intent(this, FullscreenActivity.class);
+       // startActivityForResult(i, 1);
+        Intent i = new Intent(this, FirstActivity.class);
+        startActivity(i);
     }
 
     public void secondAct(View view){
