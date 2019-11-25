@@ -23,7 +23,8 @@ public class MainThread extends Thread {
     }
 
     @Override
-    public void run() {long startTime;
+    public void run() {
+        long startTime;
         long timeMillis;
         long waitTime;
         long totalTime = 0;

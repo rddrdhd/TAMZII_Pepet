@@ -114,9 +114,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("First");
+                int result=data.getIntExtra("First", 0);
+                Log.i("first", ""+result);
 
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), result+"from first", Toast.LENGTH_SHORT).show();
+                pet.cheer(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "!onActivityResult!1", Toast.LENGTH_SHORT).show();
