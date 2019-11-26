@@ -1,1 +1,13 @@
 # TheGathering
+**2D tamagotchi game with minigames for school course TAMZ II.**
+
+6 requirements:
+- Advanced GUI - Lists, Tabs, Fragments, Gestures, ...
+- Concurrency - Thread, AsyncTask, ...
+- Multimedia - Audio, Video, playback, recording
+- Signal Processing - Image, Sound, Sensors
+- 2d Game Canvas - SurvaceView, Canvas, ...
+- Persistent Storage - SharedPreferences, External Storage, ...
+
+Dependencies:
+- opencv-4.1.2

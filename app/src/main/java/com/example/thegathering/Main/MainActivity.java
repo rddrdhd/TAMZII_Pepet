@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,14 +7,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.thegathering.First.FirstActivity;
+import com.example.thegathering.R;
+import com.example.thegathering.Second.SecondActivity;
+import com.example.thegathering.Third.ThirdActivity;
+
 public class MainActivity extends AppCompatActivity {
     Pet pet;
+    TextView tw0;
     TextView tw1;
     TextView tw2;
     TextView tw3;
@@ -27,30 +34,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tw1 = findViewById(R.id.textView);
+        tw0 = findViewById(R.id.textView0);
+        tw1 = findViewById(R.id.textView1);
         tw2 = findViewById(R.id.textView2);
         tw3 = findViewById(R.id.textView3);
         imgPet = findViewById(R.id.imageView);
 
         pet = new Pet();
 
+        //for timestamps
+        final long[] t = new long[2];
+
         updateTextViews();
 
         imgPet.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                //Timestamp t1, t2;
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //t1 = new Timestamp(new Date().getTime());
+                    t[0] = System.currentTimeMillis();
                     imgPet.setImageResource(R.drawable.happypepe);
-
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    //t2 = new Timestamp(new Date().getTime());
+                    t[1] = System.currentTimeMillis();
                     imgPet.setImageResource(R.drawable.smilepepe);
-                    pet.cheer(2);
-                    updateTextViews();
+
+                    pet.love((int)(t[1]-t[0])/666); //hold longer than 0.66 sec
                 }
+                updateTextViews();
                 return true;
             }
         });
@@ -86,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
     /* ****************************************************************************************** */
     public void fullscreenAct(View view){
-        Intent i = new Intent(this, FullscreenActivity.class);
-        startActivityForResult(i, 1);
+        //Intent i = new Intent(this, FullscreenActivity.class);
+       // startActivityForResult(i, 1);
+        Intent i = new Intent(this, FirstActivity.class);
+        startActivity(i);
     }
 
     public void secondAct(View view){
@@ -105,9 +117,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("First");
+                int result=data.getIntExtra("First", 0);
+                Log.i("first", ""+result);
 
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), result+"from first", Toast.LENGTH_SHORT).show();
+                pet.cheer(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "!onActivityResult!1", Toast.LENGTH_SHORT).show();
@@ -139,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* ****************************************************************************************** */
     public void updateTextViews(){
+        tw0.setText("Love: "+pet.love());
         tw1.setText("Happ: "+pet.happy());
         tw2.setText("Fed:"+pet.fed());
         tw3.setText("Heal: "+pet.health());
