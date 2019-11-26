@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.First;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,12 +6,17 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.example.thegathering.Main.MainThread;
+import com.example.thegathering.Main.Score;
+import com.example.thegathering.R;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -29,6 +34,7 @@ public class FirstGameView
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
+    int scoreRound;
 
     public FirstGameView(Context context) {
         super(context);
@@ -49,7 +55,10 @@ public class FirstGameView
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 10);
+        characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
+
+        Log.i("score", Score.firstGame+"");
+        Log.i("scoreRound",scoreRound+"");
         return super.onTouchEvent(event);
     }
 
@@ -57,16 +66,17 @@ public class FirstGameView
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
+        Score.firstGame = 0;
+        scoreRound = 0;
         Bitmap bmp, bmp1, bmp2, resized, resized1, resized2;
 
-        int y;
-        int x;
-
-        bmp = BitmapFactory.decodeResource(getResources(),R.drawable.squarepepe);
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.squarepepe);
         bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
         bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
 
-        resized =  getResizedBitmap( bmp, 250, 250);
+        //character
+        resized =  getResizedBitmap( bmp, 200, 200);
+        //pipes
         resized1 =  getResizedBitmap( bmp1, 300, Resources.getSystem().getDisplayMetrics().heightPixels /-2);
         resized2 =  getResizedBitmap( bmp2, 300, Resources.getSystem().getDisplayMetrics().heightPixels /2);
 
@@ -77,9 +87,7 @@ public class FirstGameView
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -93,6 +101,7 @@ public class FirstGameView
             }
             retry = false;
         }
+
     }
 
 
@@ -129,67 +138,46 @@ public class FirstGameView
         return resizedBitmap;
     }
 
-
     public void logic() {
 
-        //Detect if the character is touching one of the pipes
-        if (characterSprite.y < pipe1.yY + (screenHeight / 2) - (gapHeight / 2)
-                && characterSprite.x + 300 > pipe1.xX && characterSprite.x < pipe1.xX + 500)
-        { resetLevel(); }
+        List pipes = new ArrayList<>();
+        pipes.add(pipe1);
+        pipes.add(pipe2);
+        pipes.add(pipe3);
 
-        if (characterSprite.y < pipe2.yY + (screenHeight / 2) - (gapHeight / 2)
-                && characterSprite.x + 300 > pipe2.xX && characterSprite.x < pipe2.xX + 500)
-        { resetLevel(); }
+        for (int i = 0; i < pipes.size(); i++) {
+            FirstGamePipeSprite pipe = (FirstGamePipeSprite) pipes.get(i);
+            //Detect if the character is touching one of the pipes
+            if (characterSprite.y < pipe.yY + (screenHeight / 2) - (gapHeight / 2)
+                    && characterSprite.x + 300 > pipe.xX
+                    && characterSprite.x < pipe.xX + 500) {
+                resetLevel();
+            } else if (characterSprite.y + 200 > (screenHeight / 2) + (gapHeight / 2) + pipe.yY
+                    && characterSprite.x + 300 > pipe.xX
+                    && characterSprite.x < pipe.xX + 500) {
+                resetLevel();
+            } else if(characterSprite.x + 10 > pipe.xX && characterSprite.x - 10 < pipe.xX) {
+                scoreRound++; //1-3 points per flying through pipes
 
-        if (characterSprite.y < pipe3.yY + (screenHeight / 2) - (gapHeight / 2)
-                && characterSprite.x + 300 > pipe3.xX && characterSprite.x < pipe3.xX + 500)
-        { resetLevel(); }
+            }
 
-        if (characterSprite.y + 240 > (screenHeight / 2) + (gapHeight / 2) + pipe1.yY
-                && characterSprite.x + 300 > pipe1.xX && characterSprite.x < pipe1.xX + 500)
-        { resetLevel(); }
-
-        if (characterSprite.y + 240 > (screenHeight / 2) + (gapHeight / 2) + pipe2.yY
-                && characterSprite.x + 300 > pipe2.xX && characterSprite.x < pipe2.xX + 500)
-        { resetLevel(); }
-
-        if (characterSprite.y + 240 > (screenHeight / 2) + (gapHeight / 2) + pipe3.yY
-                && characterSprite.x + 300 > pipe3.xX && characterSprite.x < pipe3.xX + 500)
-        { resetLevel(); }
+            //Detect if the pipe has gone off the left of the
+            //screen and regenerate further ahead
+            if (pipe.xX + 500 < 0) {
+                Random r = new Random();
+                int value1 = r.nextInt(500);
+                int value2 = r.nextInt(500);
+                pipe.xX = screenWidth + value1 + 1000;
+                pipe.yY = value2 - 250;
+            }
+        }
 
         //Detect if the character has gone off the
         //bottom or top of the screen
-        if (characterSprite.y + 240 < 0) {
+        if (characterSprite.y + 200 < 0) {
             resetLevel(); }
         if (characterSprite.y > screenHeight) {
             resetLevel(); }
-
-
-        //If the pipe goes off the left of the screen,
-        //put it forward at a randomized distance and height
-        if (pipe1.xX + 500 < 0) {
-            Random r = new Random();
-            int value1 = r.nextInt(500);
-            int value2 = r.nextInt(500);
-            pipe1.xX = screenWidth + value1 + 1000;
-            pipe1.yY = value2 - 250;
-        }
-
-        if (pipe2.xX + 500 < 0) {
-            Random r = new Random();
-            int value1 = r.nextInt(500);
-            int value2 = r.nextInt(500);
-            pipe2.xX = screenWidth + value1 + 1000;
-            pipe2.yY = value2 - 250;
-        }
-
-        if (pipe3.xX + 500 < 0) {
-            Random r = new Random();
-            int value1 = r.nextInt(500);
-            int value2 = r.nextInt(500);
-            pipe3.xX = screenWidth + value1 + 1000;
-            pipe3.yY = value2 - 250;
-        }
     }
 
     public void resetLevel() {
@@ -201,5 +189,10 @@ public class FirstGameView
         pipe3.xX = 3200;
         pipe3.yY = 250;
 
+        Score.firstGame += scoreRound;
+        scoreRound = 0;
+
+
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.First;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

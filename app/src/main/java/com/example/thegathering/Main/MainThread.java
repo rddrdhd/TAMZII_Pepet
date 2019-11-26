@@ -1,8 +1,10 @@
-package com.example.thegathering;
+package com.example.thegathering.Main;
 
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
+import com.example.thegathering.First.FirstGameView;
 
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
@@ -23,7 +25,8 @@ public class MainThread extends Thread {
     }
 
     @Override
-    public void run() {long startTime;
+    public void run() {
+        long startTime;
         long timeMillis;
         long waitTime;
         long totalTime = 0;

@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.First;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.Main;
 
 import java.sql.Timestamp;
 import java.util.Date;
