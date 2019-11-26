@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.Third;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.thegathering.R;
 
 public class ThirdActivity extends AppCompatActivity {
 

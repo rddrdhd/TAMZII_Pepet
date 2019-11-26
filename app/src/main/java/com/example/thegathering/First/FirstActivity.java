@@ -1,13 +1,15 @@
-package com.example.thegathering;
+package com.example.thegathering.First;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+
+import com.example.thegathering.Main.Score;
+import com.example.thegathering.R;
 
 public class FirstActivity extends Activity {
     FirstGameView gw;

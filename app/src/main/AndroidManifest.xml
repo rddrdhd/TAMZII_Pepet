@@ -10,18 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ThirdActivity" />
+            android:name=".Third.ThirdActivity" />
         <activity
-            android:name=".SecondActivity" />
+            android:name=".Second.SecondActivity" />
         <activity
-            android:name=".FirstActivity"
+            android:name=".First.FirstActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

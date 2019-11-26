@@ -1,4 +1,4 @@
-package com.example.thegathering;
+package com.example.thegathering.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.Timestamp;
+import com.example.thegathering.First.FirstActivity;
+import com.example.thegathering.R;
+import com.example.thegathering.Second.SecondActivity;
+import com.example.thegathering.Third.ThirdActivity;
 
 public class MainActivity extends AppCompatActivity {
     Pet pet;

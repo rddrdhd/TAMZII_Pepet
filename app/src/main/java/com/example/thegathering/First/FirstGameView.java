@@ -1,20 +1,19 @@
-package com.example.thegathering;
+package com.example.thegathering.First;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.Button;
+
+import com.example.thegathering.Main.MainThread;
+import com.example.thegathering.Main.Score;
+import com.example.thegathering.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class FirstGameView
     public boolean onTouchEvent(MotionEvent event) {
         characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
-        Log.i("score",Score.firstGame+"");
+        Log.i("score", Score.firstGame+"");
         Log.i("scoreRound",scoreRound+"");
         return super.onTouchEvent(event);
     }
@@ -71,14 +70,13 @@ public class FirstGameView
         scoreRound = 0;
         Bitmap bmp, bmp1, bmp2, resized, resized1, resized2;
 
-        int y;
-        int x;
-
-        bmp = BitmapFactory.decodeResource(getResources(),R.drawable.squarepepe);
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.squarepepe);
         bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
         bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
 
+        //character
         resized =  getResizedBitmap( bmp, 200, 200);
+        //pipes
         resized1 =  getResizedBitmap( bmp1, 300, Resources.getSystem().getDisplayMetrics().heightPixels /-2);
         resized2 =  getResizedBitmap( bmp2, 300, Resources.getSystem().getDisplayMetrics().heightPixels /2);
 
@@ -89,9 +87,7 @@ public class FirstGameView
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -152,17 +148,16 @@ public class FirstGameView
         for (int i = 0; i < pipes.size(); i++) {
             FirstGamePipeSprite pipe = (FirstGamePipeSprite) pipes.get(i);
             //Detect if the character is touching one of the pipes
-            if (characterSprite.y < pipe.yY + (screenHeight / 2)
-                    - (gapHeight / 2) && characterSprite.x + 300 > pipe.xX
+            if (characterSprite.y < pipe.yY + (screenHeight / 2) - (gapHeight / 2)
+                    && characterSprite.x + 300 > pipe.xX
                     && characterSprite.x < pipe.xX + 500) {
                 resetLevel();
-            } else if (characterSprite.y + 240 > (screenHeight / 2) +
-                    (gapHeight / 2) + pipe.yY
+            } else if (characterSprite.y + 200 > (screenHeight / 2) + (gapHeight / 2) + pipe.yY
                     && characterSprite.x + 300 > pipe.xX
                     && characterSprite.x < pipe.xX + 500) {
                 resetLevel();
             } else if(characterSprite.x + 10 > pipe.xX && characterSprite.x - 10 < pipe.xX) {
-                scoreRound++; //1-2 points per flying through pipe
+                scoreRound++; //1-3 points per flying through pipes
 
             }
 
@@ -179,7 +174,7 @@ public class FirstGameView
 
         //Detect if the character has gone off the
         //bottom or top of the screen
-        if (characterSprite.y + 240 < 0) {
+        if (characterSprite.y + 200 < 0) {
             resetLevel(); }
         if (characterSprite.y > screenHeight) {
             resetLevel(); }
