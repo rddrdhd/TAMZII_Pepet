@@ -1,10 +1,7 @@
 package com.example.thegathering.Second;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,11 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.thegathering.R;
@@ -45,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -54,14 +49,15 @@ public class SecondActivity extends AppCompatActivity {
     private CascadeClassifier cascadeClassifier;
     Button camButton, detectButton, processButton;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
     ImageView imageView;
     MatOfRect gRects;
     Mat gMat;
-    Mat batMat;
     Rect[] facesArray;
     Mat paintMat;
 
     Bitmap originalFace;
+    Bitmap finalFace;
 
     private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"};
 
@@ -100,6 +96,7 @@ public class SecondActivity extends AppCompatActivity {
         detectButton = findViewById(R.id.detectButton);
         processButton = findViewById(R.id.processButton);
 
+
         detectButton.setEnabled(false);
         processButton.setEnabled(false);
 
@@ -115,9 +112,7 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume()
-    {
-
+    public void onResume() {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
@@ -126,10 +121,9 @@ public class SecondActivity extends AppCompatActivity {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
-
     }
 
-    private void initializeOpenCVDependencies(){
+    private void initializeOpenCVDependencies() {
         try{
             // Copy the resource into a temp file so OpenCV can load it
             InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
@@ -151,28 +145,24 @@ public class SecondActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("OpenCVActivity", "Error loading cascade", e);
         }
-
-        //camera
-        //openCvCameraView.enableView();
     }
 
     public void takePhoto(View view) {
 
-        /* TODO 1. - zavolat aktivitu, ktera umozni pomoci kamery poridit fotku a poslat ji do metody onActivityResult
-           Jedna z moznych cest:
+        /* zavolat aktivitu, ktera umozni pomoci kamery poridit fotku a poslat ji do metody onActivityResult
            https://developer.android.com/training/camera/photobasics
         */
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},110);
-          }
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
             File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                Toast.makeText(this,"Could not save file",Toast.LENGTH_SHORT).show();
+                // Error occurred while creating the File
+                Log.e("takePhoto", ""+ex);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -180,46 +170,30 @@ public class SecondActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
-
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
-        {
-            /* TODO 2. - pracovat s porizenou fotkou (zobrazeni/prevod do Mat)
-               Jedna z moznych cest:
-               nacist fotku do promenne typu Bitmap a nasledne prekonvertovat do Mat aby s ni mohla knihovna OpenCV pracovat
-               vytvoreni Mat: gMat = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
-               bmp to Mat: Utils.bitmapToMat(bmp, gMat);
-               Bitmap lze nastavit do ImageView a zobrazit
-             */
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                //Bundle extras = data.getExtras();
-                //Bitmap bmp = (Bitmap) extras.get("data");
-                //imageView.setImageBitmap(bmp);
-                Bitmap bmp = getBitmap(currentPhotoPath);
-                imageView.setImageBitmap(bmp);
-                originalFace = bmp;
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-                gMat = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
-                Utils.bitmapToMat(bmp, gMat);
+            Bitmap imageBitmap = getBitmap(currentPhotoPath);
 
-                detectButton.setEnabled(true);
-            }
+            imageView.setImageBitmap(imageBitmap);
+            originalFace = imageBitmap;
+
+            detectButton.setEnabled(true);
         }
     }
+
     String currentPhotoPath;
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-        String imageFileName = "FaceDetection_" + timeStamp + "_";
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -249,52 +223,28 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     public void detectFace(View view) {
-
-
-        /* TODO 3. - Obraz v promenne Mat se pouzije jako vstup pro detektor tvari + zobrazit vyslednou detekci
-           Jedna z moznych cest:
-           predpoklad, ze v globalni promenne gMat je porizena fotka z kroku 2
-           gRects = new MatOfRect();
-           cascadeClassifier.detectMultiScale(gMat, gRects);
-           do promenne gRects ziskam vsechny pozitivni detekce
-           vytvoreni pole obdelniku (detekovanych tvari), aby je bylo mozne prochazet v cyklu
-           Rect[] facesArray = gRects.toArray();
-           vykresleni obdelniku do obrazu
-           Imgproc.rectangle(paintMat, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0, 255), 6);
-           vysledek z paintMat je mozne konvertovat do Bitmap
-           Bitmap bm = Bitmap.createBitmap(img.cols(), img.rows(), Bitmap.Config.ARGB_8888);
-           Utils.matToBitmap(img, bm);
-           Bitmap lze nastavit do ImageView a zobrazit vysledek
-           https://docs.opencv.org/3.4/javadoc/org/opencv/objdetect/CascadeClassifier.html
-         */
-
+        /* Obraz v promenne Mat se pouzije jako vstup pro detektor tvari
+           + zobrazit vyslednou detekci */
 
         gRects = new MatOfRect();
-
         cascadeClassifier.detectMultiScale(gMat, gRects);
-
         facesArray = gRects.toArray();
-
         paintMat = gMat.clone();
-
-
 
         for (Rect rect : facesArray) {
             Imgproc.rectangle(paintMat, rect.tl(), rect.br(), new Scalar(0, 255, 0, 255), 6);
-
 
             Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(paintMat, bm);
             imageView.setImageBitmap(bm);
         }
-
         processButton.setEnabled(true);
     }
 
 
 
     public void processImage(View view) {
-        //TODO 4. - BONUS - Nadetekovanou tvar prekreslit R.drawable.cute_face3
+        //Nadetekovanou tvar prekreslit
 
         paintMat = gMat.clone();
         Bitmap face = originalFace;
@@ -307,6 +257,7 @@ public class SecondActivity extends AppCompatActivity {
             face = overlay(face, smile, rect);
             imageView.setImageBitmap(face);
         }
+        finalFace = face;
     }
 
     public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2, Rect rect) {
@@ -319,12 +270,44 @@ public class SecondActivity extends AppCompatActivity {
 
     //tmp
     public void save(View view){
-
-        String result="from second";
-
+       /* String result="from second";
         Intent returnIntent = new Intent();
         returnIntent.putExtra("Second",result);
         setResult(Activity.RESULT_OK,returnIntent);
-        finish();
+        finish();*/
+       String fileName = "PepePic"+new Date().getTime();
+        /*new ImageSaver(getApplicationContext()).
+                setExternal(true).
+                setFileName(fileName).
+                setDirectoryName("images").
+                save(finalFace);*/
+        saveImage(getApplicationContext(), finalFace, fileName, "png");
+        Log.i("pic", fileName+" saved!");
+    }
+
+    public void saveImage(Context context, Bitmap bitmap, String name, String extension){
+        name = name + "." + extension;
+        FileOutputStream fileOutputStream;
+
+        try {
+            String path = Environment.getExternalStorageDirectory().toString();
+            OutputStream fOut = null;
+            Integer counter = 0;
+            File file = new File(path, "PepePic"+counter+".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+            fOut = new FileOutputStream(file);
+
+            Bitmap pictureBitmap = finalFace; // obtaining the Bitmap
+            pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+            fOut.flush(); // Not really required
+            fOut.close(); // do not forget to close the stream
+
+            MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+
+            /* fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            fileOutputStream.close();*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
