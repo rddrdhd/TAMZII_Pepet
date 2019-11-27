@@ -1,7 +1,5 @@
 package com.example.thegathering.Main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.thegathering.First.FirstActivity;
 import com.example.thegathering.R;
@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void secondAct(View view){
         Intent i = new Intent(this, SecondActivity.class);
-        startActivityForResult(i, 2);
+       // startActivityForResult(i, 2);
+        startActivity(i);
     }
 
     public void thirdAct(View view){
