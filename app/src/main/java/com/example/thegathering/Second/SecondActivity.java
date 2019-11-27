@@ -287,13 +287,12 @@ public class SecondActivity extends AppCompatActivity {
 
     public void saveImage(Context context, Bitmap bitmap, String name, String extension){
         name = name + "." + extension;
-        FileOutputStream fileOutputStream;
+        //FileOutputStream fileOutputStream;
 
         try {
             String path = Environment.getExternalStorageDirectory().toString();
             OutputStream fOut = null;
-            Integer counter = 0;
-            File file = new File(path, "PepePic"+counter+".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+            File file = new File(path, name); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
             fOut = new FileOutputStream(file);
 
             Bitmap pictureBitmap = finalFace; // obtaining the Bitmap
