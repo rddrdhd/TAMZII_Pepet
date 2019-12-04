@@ -1,4 +1,4 @@
-package com.example.thegathering.Main;
+package com.example.thegathering.Utils;
 
 public class Score {
     public static int firstGame;

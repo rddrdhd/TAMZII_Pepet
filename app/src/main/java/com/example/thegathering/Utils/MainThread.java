@@ -1,4 +1,4 @@
-package com.example.thegathering.Main;
+package com.example.thegathering.Utils;
 
 import android.graphics.Canvas;
 import android.util.Log;
