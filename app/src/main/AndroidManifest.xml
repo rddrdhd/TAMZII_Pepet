@@ -25,8 +25,7 @@
         </provider>
 
         <activity
-            android:name=".First.FirstActivity"
-            android:screenOrientation="landscape" />
+            android:name=".First.FirstActivity" />
 
         <activity
             android:name=".FullscreenActivity"
