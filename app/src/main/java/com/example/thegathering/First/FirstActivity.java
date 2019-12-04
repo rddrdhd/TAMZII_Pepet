@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.example.thegathering.Main.Score;
 import com.example.thegathering.R;
+import com.example.thegathering.Utils.Score;
 
 public class FirstActivity extends Activity {
     FirstGameView gw;
+    private TextView scoreLabel, highScoreLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +24,14 @@ public class FirstActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         gw = new FirstGameView(this);
 
+
         //setContentView(gw);
         setContentView(R.layout.activity_first);
         LinearLayout surface = (LinearLayout)findViewById(R.id.surfaceView);
         surface.addView(gw);
+
+        scoreLabel = findViewById(R.id.scoreLabel1);
+        highScoreLabel = findViewById(R.id.highScoreLabel1);
     }
 
     public void save(View view){
