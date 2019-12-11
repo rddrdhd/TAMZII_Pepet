@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 int result=data.getIntExtra("First", 0);
-                Log.i("first", ""+result);
+                Log.d("first", ""+result);
 
                 Toast.makeText(getApplicationContext(), result+"from first", Toast.LENGTH_SHORT).show();
                 pet.cheer(result);

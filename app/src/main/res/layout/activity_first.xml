@@ -3,34 +3,35 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/scoreLabel1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Score : 0"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingVertical="14dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:background="@android:color/white"/>
-
-    <TextView
-        android:id="@+id/highScoreLabel1"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="High Score : 300"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/surfaceView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/scoreLabel1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Score : 0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingVertical="14dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/highScoreLabel1"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="High Score : 300"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

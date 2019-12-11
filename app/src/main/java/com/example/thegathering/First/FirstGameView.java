@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.example.thegathering.R;
 import com.example.thegathering.Utils.MainThread;
 import com.example.thegathering.Utils.Score;
-import com.example.thegathering.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-    int scoreRound;
 
     public FirstGameView(Context context) {
         super(context);
@@ -56,8 +55,8 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     public boolean onTouchEvent(MotionEvent event) {
         characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
-        Log.i("score", Score.firstGame+"");
-        Log.i("scoreRound",scoreRound+"");
+        Log.d("score", Score.firstGame+"");
+        Log.d("scoreRound",Score.firstGameRound+"");
         return super.onTouchEvent(event);
     }
 
@@ -66,8 +65,9 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         thread.setRunning(true);
         thread.start();
         Score.firstGame = 0;
-        scoreRound = 0;
+        Score.firstGameRound = 0;
         Bitmap bmp, bmp1, bmp2, resized, resized1, resized2;
+
 
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.squarepepe);
         bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.pipe);
@@ -156,8 +156,9 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
                     && characterSprite.x + heroSize > pipe.xX
                     && characterSprite.x < pipe.xX + 500) {
                 resetLevel();
-            } else if(characterSprite.x + 10 > pipe.xX && characterSprite.x - 10 < pipe.xX) {
-                scoreRound++; //1-3 points per flying through pipes
+            } else if(characterSprite.x + 5 > pipe.xX && characterSprite.x - 5 < pipe.xX) {
+                Score.firstGameRound++; //2-3 points per flying through pipes
+
             }
 
             //Detect if the pipe has gone off the left of the
@@ -171,8 +172,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
             }
         }
 
-        //Detect if the character has gone off the
-        //bottom or top of the screen
         if (characterSprite.y + heroSize < 0) {
             resetLevel(); }
         if (characterSprite.y > screenHeight) {
@@ -188,8 +187,8 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         pipe3.xX = 3200;
         pipe3.yY = 250;
 
-        Score.firstGame += scoreRound;
-        scoreRound = 0;
+        Score.firstGame += Score.firstGameRound;
+        Score.firstGameRound = 0;
 
 
     }
