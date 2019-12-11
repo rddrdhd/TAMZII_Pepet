@@ -67,7 +67,7 @@ public class SecondActivity extends AppCompatActivity {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
-                    Log.i(TAG, "OpenCV loaded successfully");
+                    Log.d(TAG, "OpenCV loaded successfully");
                     //System.loadLibrary("detection_based_tracker");
                     //mOpenCvCameraView.enableView();
 
@@ -162,7 +162,7 @@ public class SecondActivity extends AppCompatActivity {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.e("takePhoto", ""+ex);
+                Log.d("takePhoto", ""+ex);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -282,7 +282,7 @@ public class SecondActivity extends AppCompatActivity {
                 setDirectoryName("images").
                 save(finalFace);*/
         saveImage(getApplicationContext(), finalFace, fileName, "png");
-        Log.i("pic", fileName+" saved!");
+        Log.d("pic", fileName+" saved!");
     }
 
     public void saveImage(Context context, Bitmap bitmap, String name, String extension){
