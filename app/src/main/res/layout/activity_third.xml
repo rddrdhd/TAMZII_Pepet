@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Third.ThirdActivity"
     android:orientation="vertical"
-    android:background="@drawable/bg">
+    android:background="@drawable/pond">
 
     <TextView
         android:id="@+id/scoreLabel3"

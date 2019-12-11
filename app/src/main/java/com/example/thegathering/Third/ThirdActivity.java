@@ -23,7 +23,7 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class ThirdActivity extends AppCompatActivity {
-    // uses pepe - main hero,
+    // pepe - main hero,
     // item - falling food,
     // boost - falling drink,
     // black - falling bad thing

@@ -179,6 +179,8 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     }
 
     public void resetLevel() {
+        FirstActivity.start_flg = false;
+
         characterSprite.y = 100;
         pipe1.xX = 2000;
         pipe1.yY = 0;
