@@ -14,9 +14,9 @@ public class SoundPlayer {
     final int SOUND_POOL_MAX = 3;
 
     private static SoundPool soundPool;
-    private static int hitItemSound;
-    private static int hitBoostSound;
-    private static int hitBlackSound;
+    private static int hitGoodItemSound;
+    private static int hitBetterItemSound;
+    private static int hitBadItemSound;
 
     public SoundPlayer(Context context) {
 
@@ -37,21 +37,21 @@ public class SoundPlayer {
             soundPool = new SoundPool(SOUND_POOL_MAX, AudioManager.STREAM_MUSIC, 0);
         }
 
-        hitItemSound = soundPool.load(context, R.raw.bite, 1);
-        hitBoostSound = soundPool.load(context, R.raw.burp, 1);
-        hitBlackSound = soundPool.load(context, R.raw.punch, 1);
+        hitGoodItemSound = soundPool.load(context, R.raw.bite, 1);
+        hitBetterItemSound = soundPool.load(context, R.raw.burp, 1);
+        hitBadItemSound = soundPool.load(context, R.raw.punch, 1);
     }
 
-    public void playHitItemSound() {
-        soundPool.play(hitItemSound, 1.0f, 1.0f, 1, 0, 1.0f);
+    public void playHitGoodItemSound() {
+        soundPool.play(hitGoodItemSound, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
-    public void playHitBoostSound() {
-        soundPool.play(hitBoostSound, 1.0f, 1.0f, 1, 0, 1.0f);
+    public void playHitBetterItemSound() {
+        soundPool.play(hitBetterItemSound, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
-    public void playHitBlackSound() {
-        soundPool.play(hitBlackSound, 1.0f, 1.0f, 1, 0, 1.0f);
+    public void playHitBadItemSound() {
+        soundPool.play(hitBadItemSound, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 }
 

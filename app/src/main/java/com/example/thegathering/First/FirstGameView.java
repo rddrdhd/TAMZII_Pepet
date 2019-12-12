@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-
 public class FirstGameView extends android.view.SurfaceView implements android.view.SurfaceHolder.Callback  {
 
     public MainThread thread;
@@ -34,7 +33,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-
 
     public FirstGameView(Context context) {
         super(context);
@@ -52,9 +50,10 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         pipe3.update();
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
         if(FirstActivity.start_flg)characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
@@ -137,11 +136,11 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     }
 
     public void logic() {
-
         List pipes = new ArrayList<>();
         pipes.add(pipe1);
         pipes.add(pipe2);
         pipes.add(pipe3);
+        Random r = new Random();
 
         for (int i = 0; i < pipes.size(); i++) {
             FirstGamePipeSprite pipe = (FirstGamePipeSprite) pipes.get(i);
@@ -155,17 +154,17 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
                     && characterSprite.x < pipe.xX + 500) {
                 resetLevel();
             } else if(characterSprite.x + 5 > pipe.xX && characterSprite.x - 5 < pipe.xX) {
-                Score.firstGameRound++;
+                int x = r.nextInt(5);
+                Score.firstGameRound+=x;
+                Score.firstGame+=x;
             }
 
             //Detect if the pipe has gone off the left of the
             //screen and regenerate further ahead
             if (pipe.xX + 500 < 0) {
-                Random r = new Random();
                 int value1 = r.nextInt(500);
                 int value2 = r.nextInt(500);
                 pipe.xX = screenWidth + value1 + 2*screenWidth;
-                Log.d("obrazovkawidth",Integer.toString(screenWidth));
                 pipe.yY = value2 - 250;
             }
         }
@@ -191,11 +190,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         pipe3.xX = 3200;
         pipe3.yY = 250;
 
-        Score.firstGame += Score.firstGameRound;
         if(Score.firstGameRound>Score.firstGameRecord) Score.firstGameRecord=Score.firstGameRound;
         Score.firstGameRound = 0;
-
-
     }
-
 }

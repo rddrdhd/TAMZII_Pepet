@@ -16,7 +16,6 @@ public class FirstGamePipeSprite {
         xX = x;
     }
 
-
     public void draw(Canvas canvas) {
         canvas.drawBitmap(image, xX,
                 -(FirstGameView.gapHeight / 2) + yY,
@@ -27,9 +26,7 @@ public class FirstGamePipeSprite {
     }
 
     public void update() {
-        if(FirstActivity.start_flg)
-            xX -= FirstGameView.velocity;
-
+        xX -= FirstGameView.velocity;
     }
 
 }

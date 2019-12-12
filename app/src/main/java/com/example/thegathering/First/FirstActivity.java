@@ -36,25 +36,19 @@ public class FirstActivity extends Activity {
 
         scoreLabel = findViewById(R.id.scoreLabel1);
         highScoreLabel = findViewById(R.id.highScoreLabel1);
-        settings = getSharedPreferences("GAME_DATA_FIRST", Context.MODE_PRIVATE);
+        settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
         Score.firstGameRecord = settings.getInt("HIGH_SCORE_FIRST", 0);
         highScoreLabel.setText("High Score : " + Score.firstGameRecord);
-
-        settings = getSharedPreferences("GAME_DATA_FIRST", Context.MODE_PRIVATE);
-        Score.firstGameRecord = settings.getInt("HIGH_SCORE_FIRST", 0);
-        highScoreLabel.setText("High Score : " + Score.firstGameRecord);
-
 
         gw.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(TAG, "onTouch");
                 if(Score.firstGameRound>Score.firstGameRecord){
                     Score.firstGameRecord = Score.firstGameRound;
+                    highScoreLabel.setText("High score: "+Score.firstGameRecord);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt("HIGH_SCORE_FIRST", Score.firstGameRecord);
                     editor.commit();
-                    highScoreLabel.setText("High score: "+Score.firstGameRecord);
-
                 }
                 scoreLabel.setText("Score: "+String.valueOf(Score.firstGameRound));
                 if(!start_flg){
@@ -70,17 +64,5 @@ public class FirstActivity extends Activity {
                 return false;
             }
         });
-
-    /*public void save(View view){
-
-     }
-
-    public void startGame1(View view) {
-        start_flg = true;
-        startLayout.setVisibility(View.GONE);
     }
-    public void quitGame1(View view) {
-        end_flg = false;
-        finish();
-    }*/
 }

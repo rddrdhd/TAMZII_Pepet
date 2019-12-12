@@ -7,8 +7,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,35 +19,31 @@ import com.example.thegathering.Utils.Score;
 
 public class MainActivity extends AppCompatActivity {
     Pet pet;
-    TextView tw0;
-    TextView tw1;
-    TextView tw2;
-    TextView tw3;
+    ProgressBar pb1, pb2, pb3, pb4;
     ImageView imgPet;
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 10*1000; //Delay for 5 seconds
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Score.firstGame = 0;
-
         Score.thirdGame = 0;
 
-        tw0 = findViewById(R.id.textView0);
-        tw1 = findViewById(R.id.textView1);
-        tw2 = findViewById(R.id.textView2);
-        tw3 = findViewById(R.id.textView3);
         imgPet = findViewById(R.id.imageView);
+        pb1 = findViewById(R.id.progressBar1);
+        pb2 = findViewById(R.id.progressBar2);
+        pb3 = findViewById(R.id.progressBar3);
+        pb4 = findViewById(R.id.progressBar4);
 
         pet = new Pet();
 
         //for timestamps
         final long[] t = new long[2];
 
-        updateTextViews();
 
         imgPet.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,41 +58,29 @@ public class MainActivity extends AppCompatActivity {
 
                     pet.love((int)(t[1]-t[0])/666); //hold longer than 0.66 sec
                 }
-                updateTextViews();
+                updateProgressBars();
                 return true;
             }
         });
+        updateProgressBars();
     }
 
-    Handler handler = new Handler();
-    Runnable runnable;
-    int delay = 10*1000; //Delay for 10 seconds.  One second = 1000 milliseconds.
 
     @Override
     protected void onResume() {
 
-        if(Score.firstGame!=0){
-            pet.cheer(Score.firstGame);
-            Score.firstGame = 0;
-        }
-        if(Score.thirdGame!=0){
-            pet.feed(Score.thirdGame/10);
-            Score.thirdGame = 0;
-        }
-
+       updateProgressBars();
         //start handler as activity become visible
         handler.postDelayed( runnable = new Runnable() {
-            public void run() { //Every 10 seconds
+            public void run() {
                 pet.decreaseStats();
-                updateTextViews();
+                updateProgressBars();
 
-                Toast.makeText(getApplicationContext(), "stats refreshed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "stats refreshed", Toast.LENGTH_SHORT).show();
                 handler.postDelayed(runnable, delay);
             }
         }, delay);
-
         super.onResume();
-
     }
 
     @Override
@@ -106,11 +89,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-
     /* ****************************************************************************************** */
+
     public void firstAct(View view){
-        //Intent i = new Intent(this, FullscreenActivity.class);
-       // startActivityForResult(i, 1);
         Intent i = new Intent(this, FirstActivity.class);
         startActivity(i);
     }
@@ -122,24 +103,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void thirdAct(View view){
         Intent i = new Intent(this, ThirdActivity.class);
-       // startActivityForResult(i, 3);
         startActivity(i);
     }
 
     /* ****************************************************************************************** */
-    public void updateTextViews(){
+
+    public void updateProgressBars(){
 
         if(Score.firstGame != 0){
             pet.cheer(Score.firstGame);
             Score.firstGame = 0;
         }
         if(Score.thirdGame != 0){
-            pet.feed(Score.thirdGame/10);
+            pet.feed(Score.thirdGame);
             Score.thirdGame = 0;
         }
-        tw0.setText("Love: "+pet.love());
-        tw1.setText("Happ: "+pet.happy());
-        tw2.setText("Fed:"+pet.fed());
-        tw3.setText("Social: "+pet.social());
+
+        pb1.setProgress(pet.love());
+        pb2.setProgress(pet.happy());
+        pb3.setProgress(pet.fed());
+        pb4.setProgress(pet.social());
     }
 }
