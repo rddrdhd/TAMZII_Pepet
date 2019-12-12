@@ -55,7 +55,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
 
         characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
-        if(FirstActivity.start_flg)characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
+        characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
         Log.d("score", Score.firstGame+"");
         Log.d("scoreRound",Score.firstGameRound+"");
@@ -95,7 +95,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         boolean retry = true;
         while (retry) {
             try {
-                FirstActivity.end_flg = true;
                 thread.setRunning(false);
                 thread.join();
             } catch (InterruptedException e) {

@@ -51,9 +51,6 @@ public class FirstActivity extends Activity {
                     editor.commit();
                 }
                 scoreLabel.setText("Score: "+String.valueOf(Score.firstGameRound));
-                if(!start_flg){
-                    startLayout.setVisibility(View.VISIBLE);
-                }
                 if(Score.firstGameRound > Score.firstGameRecord){
                     highScoreLabel.setText("High Score : " + Score.firstGameRecord);
                     SharedPreferences.Editor editor = settings.edit();

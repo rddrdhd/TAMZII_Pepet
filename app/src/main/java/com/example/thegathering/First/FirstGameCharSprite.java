@@ -19,7 +19,7 @@ public class FirstGameCharSprite {
     }
 
     public void update(){
-       if(FirstActivity.start_flg) y += yVelocity;
+        y += yVelocity;
     }
 
 }
