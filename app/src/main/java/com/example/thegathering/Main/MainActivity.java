@@ -173,6 +173,6 @@ public class MainActivity extends AppCompatActivity {
         tw0.setText("Love: "+pet.love());
         tw1.setText("Happ: "+pet.happy());
         tw2.setText("Fed:"+pet.fed());
-        tw3.setText("Heal: "+pet.social());
+        tw3.setText("Social: "+pet.social());
     }
 }
