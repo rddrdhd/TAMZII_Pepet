@@ -6,66 +6,32 @@
     android:orientation="vertical">
 
 
+    <TextView
+        android:id="@+id/scoreLabel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="14dp"
+        android:text="Score : 0"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/highScoreLabel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="14dp"
+        android:text="High score : 0"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
     <LinearLayout
         android:id="@+id/surfaceView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/scoreLabel1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:paddingVertical="14dp"
-            android:text="Score : 0"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/startLayoutFirst"
-            android:layout_width="match_parent"
-            android:layout_height="877dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="268dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Fly with your pepe! Flying makes him HAPPY!"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/highScoreLabel1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-                android:text="High Score : 300"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:onClick="startGame1"
-                android:text="START" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:onClick="quitGame1"
-                android:text="Quit" />
-
-        </LinearLayout>
 
 
     </LinearLayout>

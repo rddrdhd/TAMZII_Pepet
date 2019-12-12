@@ -1,6 +1,7 @@
 package com.example.thegathering.Main;
 
 import java.sql.Timestamp;
+import java.util.Random;
 
 public class Pet {
     public String name;
@@ -18,18 +19,19 @@ public class Pet {
     Pet(){
         this.name = "Pet";
         this.age = 0;
-        this.statHappy = 100;
-        this.statFed = 100;
-        this.statSocial = 100;
-        this.statLove = 50;
+        this.statHappy = 80;
+        this.statFed = 80;
+        this.statSocial = 80;
+        this.statLove = 80;
         this.born = new Timestamp(System.currentTimeMillis());
     }
 
     public void decreaseStats(){
-            this.cheer(-1);
-            this.feed(-1);
-        this.socialize(-1);
-        this.love(-1);
+        Random r = new Random();
+        this.love(-r.nextInt(5));
+        this.cheer(-r.nextInt(4));
+        this.feed(-r.nextInt(3));
+        this.socialize(-r.nextInt(2));
     }
 
     public void feed(int value) {

@@ -19,15 +19,16 @@ import com.example.thegathering.R;
 import com.example.thegathering.Utils.Score;
 import com.example.thegathering.Utils.SoundPlayer;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class ThirdActivity extends AppCompatActivity {
     // pepe - main hero,
-    // item - falling food,
-    // boost - falling drink,
-    // black - falling bad thing
+    // goodItem - falling food,
+    // betterItem - falling drink,
+    // badItem - falling bad thing
 
     // frame
     private FrameLayout gameFrame;
@@ -35,7 +36,7 @@ public class ThirdActivity extends AppCompatActivity {
     private LinearLayout startLayout;
 
     // image
-    private ImageView pepe, black, item, boost;
+    private ImageView pepe, badItem, goodItem, betterItem;
     private Drawable imagePepeRight, imagePepeLeft;
 
     // size
@@ -43,9 +44,9 @@ public class ThirdActivity extends AppCompatActivity {
 
     // position
     private float pepeX, pepeY;
-    private float blackX, blackY;
-    private float itemX, itemY;
-    private float boostX, boostY;
+    private float badItemX, badItemY;
+    private float goodItemX, goodItemY;
+    private float betterItemX, betterItemY;
 
     // score
     private TextView scoreLabel, highScoreLabel;
@@ -56,6 +57,7 @@ public class ThirdActivity extends AppCompatActivity {
     private Timer timer;
     private Handler handler = new Handler();
     private SoundPlayer soundPlayer;
+    Random r = new Random();
 
     // flags
     private boolean start_flg = false;
@@ -72,9 +74,9 @@ public class ThirdActivity extends AppCompatActivity {
         gameFrame = findViewById(R.id.gameFrame);
         startLayout = findViewById(R.id.startLayout);
         pepe = findViewById(R.id.pepeThird);
-        black = findViewById(R.id.black);
-        item = findViewById(R.id.item);
-        boost = findViewById(R.id.boost);
+        badItem = findViewById(R.id.black);
+        goodItem = findViewById(R.id.item);
+        betterItem = findViewById(R.id.boost);
         scoreLabel = findViewById(R.id.scoreLabel3);
         highScoreLabel = findViewById(R.id.highScoreLabel3);
 
@@ -82,7 +84,7 @@ public class ThirdActivity extends AppCompatActivity {
         imagePepeRight = getResources().getDrawable(R.drawable.hungry2);
 
         // High Score
-        settings = getSharedPreferences("GAME_DATA_THIRD", Context.MODE_PRIVATE);
+        settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
         highScore = settings.getInt("HIGH_SCORE_THIRD", 0);
         highScoreLabel.setText("High Score : " + highScore);
     }
@@ -98,79 +100,79 @@ public class ThirdActivity extends AppCompatActivity {
     public void changePos() {
 
         timeCount += 20;
-        itemY += 12;
+        goodItemY += 12;
 
-        float itemCenterX = itemX + item.getWidth() / 2;
-        float itemCenterY = itemY + item.getHeight() / 2;
+        float itemCenterX = goodItemX + goodItem.getWidth() / 2;
+        float itemCenterY = goodItemY + goodItem.getHeight() / 2;
 
         if (hitCheck(itemCenterX, itemCenterY)) {
-            itemY = frameHeight + 100;
-            score += 10;
-            soundPlayer.playHitItemSound();
+            goodItemY = frameHeight + 100;
+            score += r.nextInt(5);
+            soundPlayer.playHitGoodItemSound();
         }
 
-        if (itemY > frameHeight) {
-            itemY = -100;
-            itemX = (float) Math.floor(Math.random() * (frameWidth - item.getWidth()));
+        if (goodItemY > frameHeight) {
+            goodItemY = -100;
+            goodItemX = (float) Math.floor(Math.random() * (frameWidth - goodItem.getWidth()));
         }
-        item.setX(itemX);
-        item.setY(itemY);
 
+        goodItem.setX(goodItemX);
+        goodItem.setY(goodItemY);
 
         if (!boost_flg && timeCount % 10000 == 0) {
             boost_flg = true;
-            boostY = -20;
-            boostX = (float) Math.floor(Math.random() * (frameWidth - boost.getWidth()));
+            betterItemY = -20;
+            betterItemX = (float) Math.floor(Math.random() * (frameWidth - betterItem.getWidth()));
         }
 
         if (boost_flg) {
-            boostY += 20;
+            betterItemY += 20;
 
-            float boostCenterX = boostX + boost.getWidth() / 2;
-            float boostCenterY = boostY + boost.getWidth() / 2;
+            float boostCenterX = betterItemX + betterItem.getWidth() / 2;
+            float boostCenterY = betterItemY + betterItem.getWidth() / 2;
 
             if (hitCheck(boostCenterX, boostCenterY)) {
-                boostY = frameHeight + 30;
-                score += 30;
+                betterItemY = frameHeight + 30;
+                score += 10+r.nextInt(5);;
                 // Change FrameWidth
                 if (initialFrameWidth > frameWidth * 110 / 100) {
                     frameWidth = frameWidth * 110 / 100;
                     changeFrameWidth(frameWidth);
                 }
-                soundPlayer.playHitBoostSound();
+                soundPlayer.playHitBetterItemSound();
             }
 
-            if (boostY > frameHeight) boost_flg = false;
-            boost.setX(boostX);
-            boost.setY(boostY);
+            if (betterItemY > frameHeight) boost_flg = false;
+            betterItem.setX(betterItemX);
+            betterItem.setY(betterItemY);
         }
 
         // Black
-        blackY += 18;
+        badItemY += 18;
 
-        float blackCenterX = blackX + black.getWidth() / 2;
-        float blackCenterY = blackY + black.getHeight() / 2;
+        float blackCenterX = badItemX + badItem.getWidth() / 2;
+        float blackCenterY = badItemY + badItem.getHeight() / 2;
 
         if (hitCheck(blackCenterX, blackCenterY)) {
-            blackY = frameHeight + 100;
+            badItemY = frameHeight + 100;
 
             // Change FrameWidth
             frameWidth = frameWidth * 80 / 100;
             changeFrameWidth(frameWidth);
-            soundPlayer.playHitBlackSound();
+            soundPlayer.playHitBadItemSound();
             if (frameWidth <= pepeSize) {
                 gameOver();
             }
 
         }
 
-        if (blackY > frameHeight) {
-            blackY = -100;
-            blackX = (float) Math.floor(Math.random() * (frameWidth - black.getWidth()));
+        if (badItemY > frameHeight) {
+            badItemY = -100;
+            badItemX = (float) Math.floor(Math.random() * (frameWidth - badItem.getWidth()));
         }
 
-        black.setX(blackX);
-        black.setY(blackY);
+        badItem.setX(badItemX);
+        badItem.setY(badItemY);
 
         // Move Pepe
         if (action_flg) {
@@ -230,13 +232,12 @@ public class ThirdActivity extends AppCompatActivity {
 
         startLayout.setVisibility(View.VISIBLE);
         pepe.setVisibility(View.INVISIBLE);
-        black.setVisibility(View.INVISIBLE);
-        item.setVisibility(View.INVISIBLE);
-        boost.setVisibility(View.INVISIBLE);
+        badItem.setVisibility(View.INVISIBLE);
+        goodItem.setVisibility(View.INVISIBLE);
+        betterItem.setVisibility(View.INVISIBLE);
 
+        // Update Score
         Score.thirdGame += score;
-
-        // Update High Score
         if (score > highScore) {
             highScore = score;
             highScoreLabel.setText("High Score : " + highScore);
@@ -267,7 +268,6 @@ public class ThirdActivity extends AppCompatActivity {
             frameHeight = gameFrame.getHeight();
             frameWidth = gameFrame.getWidth();
             initialFrameWidth = frameWidth;
-
             pepeSize = pepe.getHeight();
             pepeX = pepe.getX();
             pepeY = pepe.getY();
@@ -276,18 +276,18 @@ public class ThirdActivity extends AppCompatActivity {
         frameWidth = initialFrameWidth;
 
         pepe.setX(0.0f);
-        black.setY(3000.0f);
-        item.setY(3000.0f);
-        boost.setY(3000.0f);
+        badItem.setY(3000.0f);
+        goodItem.setY(3000.0f);
+        betterItem.setY(3000.0f);
 
-        blackY = black.getY();
-        itemY = item.getY();
-        boostY = boost.getY();
+        badItemY = badItem.getY();
+        goodItemY = goodItem.getY();
+        betterItemY = betterItem.getY();
 
         pepe.setVisibility(View.VISIBLE);
-        black.setVisibility(View.VISIBLE);
-        item.setVisibility(View.VISIBLE);
-        boost.setVisibility(View.VISIBLE);
+        badItem.setVisibility(View.VISIBLE);
+        goodItem.setVisibility(View.VISIBLE);
+        betterItem.setVisibility(View.VISIBLE);
 
         timeCount = 0;
         score = 0;
