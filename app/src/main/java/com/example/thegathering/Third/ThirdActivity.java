@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.thegathering.R;
+import com.example.thegathering.Utils.Score;
 import com.example.thegathering.Utils.SoundPlayer;
 
 import java.util.Timer;
@@ -84,6 +85,14 @@ public class ThirdActivity extends AppCompatActivity {
         settings = getSharedPreferences("GAME_DATA_THIRD", Context.MODE_PRIVATE);
         highScore = settings.getInt("HIGH_SCORE_THIRD", 0);
         highScoreLabel.setText("High Score : " + highScore);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Score.firstGameRecord = highScore;
+        Score.firstGame += score;
+        finish();
     }
 
     public void changePos() {
@@ -224,6 +233,8 @@ public class ThirdActivity extends AppCompatActivity {
         black.setVisibility(View.INVISIBLE);
         item.setVisibility(View.INVISIBLE);
         boost.setVisibility(View.INVISIBLE);
+
+        Score.thirdGame += score;
 
         // Update High Score
         if (score > highScore) {

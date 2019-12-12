@@ -26,12 +26,16 @@ public class MainActivity extends AppCompatActivity {
     TextView tw3;
     ImageView imgPet;
 
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Score.firstGame = 0;
+
+        Score.thirdGame = 0;
 
         tw0 = findViewById(R.id.textView0);
         tw1 = findViewById(R.id.textView1);
@@ -71,8 +75,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        //start handler as activity become visible
 
+        if(Score.firstGame!=0){
+            pet.cheer(Score.firstGame);
+            Score.firstGame = 0;
+        }
+        if(Score.thirdGame!=0){
+            pet.feed(Score.thirdGame/10);
+            Score.thirdGame = 0;
+        }
+
+        //start handler as activity become visible
         handler.postDelayed( runnable = new Runnable() {
             public void run() { //Every 10 seconds
                 pet.decreaseStats();
@@ -84,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }, delay);
 
         super.onResume();
+
     }
 
     @Override
@@ -94,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     /* ****************************************************************************************** */
-    public void fullscreenAct(View view){
+    public void firstAct(View view){
+        //Intent i = new Intent(this, FullscreenActivity.class);
+       // startActivityForResult(i, 1);
         Intent i = new Intent(this, FirstActivity.class);
         startActivity(i);
     }
@@ -106,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void thirdAct(View view){
         Intent i = new Intent(this, ThirdActivity.class);
+       // startActivityForResult(i, 3);
         startActivity(i);
     }
 
@@ -123,6 +140,6 @@ public class MainActivity extends AppCompatActivity {
         tw0.setText("Love: "+pet.love());
         tw1.setText("Happ: "+pet.happy());
         tw2.setText("Fed:"+pet.fed());
-        tw3.setText("Heal: "+pet.health());
+        tw3.setText("Social: "+pet.social());
     }
 }
