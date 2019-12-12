@@ -47,6 +47,18 @@
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
 
+                <Button
+                    android:id="@+id/button"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="pet me please"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -68,10 +80,10 @@
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="fullscreenAct"
+                    android:onClick="firstAct"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="FullscreenActivity"
+                    android:text="lets have some fun"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 
@@ -92,15 +104,16 @@
                     android:textSize="24sp" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/button3"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="secondAct"
+                    android:onClick="thirdAct"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="Second activity"
-                    android:textColor="#FFFFFF"
+                    android:text="lets have some food"
+                    android:textColor="@color/white"
+                    android:textColorLink="@color/white"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -120,16 +133,15 @@
                     android:textSize="24sp" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/button2"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="thirdAct"
+                    android:onClick="secondAct"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="Third activity"
-                    android:textColor="@color/white"
-                    android:textColorLink="@color/white"
+                    android:text="take me out of the phone!"
+                    android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 
             </LinearLayout>

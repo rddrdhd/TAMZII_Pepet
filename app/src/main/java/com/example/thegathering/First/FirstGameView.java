@@ -18,6 +18,7 @@ import com.example.thegathering.Utils.Score;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 public class FirstGameView extends android.view.SurfaceView implements android.view.SurfaceHolder.Callback  {
@@ -59,7 +60,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
 
         Log.d("score", Score.firstGame+"");
         Log.d("scoreRound",Score.firstGameRound+"");
-        Log.d("record",Score.firstGameRecord+"");
+        Log.d("scoreRecord",Score.firstGameRecord+"");
         return super.onTouchEvent(event);
     }
 
@@ -154,8 +155,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
                     && characterSprite.x < pipe.xX + 500) {
                 resetLevel();
             } else if(characterSprite.x + 5 > pipe.xX && characterSprite.x - 5 < pipe.xX) {
-                Score.firstGameRound++; //2-3 points per flying through pipes
-
+                Score.firstGameRound++;
             }
 
             //Detect if the pipe has gone off the left of the
@@ -177,13 +177,11 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     }
 
     public void resetLevel() {
-        FirstActivity.start_flg = false;
-
-        //FirstActivity.checkScore();
-
-        Score.firstGame += Score.firstGameRound;
-        if(Score.firstGameRound>Score.firstGameRecord)Score.firstGameRecord=Score.firstGameRound;
-        Score.firstGameRound = 0;
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         characterSprite.y = 100;
         pipe1.xX = 2000;
@@ -192,6 +190,12 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         pipe2.yY = 200;
         pipe3.xX = 3200;
         pipe3.yY = 250;
+
+        Score.firstGame += Score.firstGameRound;
+        if(Score.firstGameRound>Score.firstGameRecord) Score.firstGameRecord=Score.firstGameRound;
+        Score.firstGameRound = 0;
+
+
     }
 
 }

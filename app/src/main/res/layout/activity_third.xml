@@ -36,22 +36,22 @@
 
         <ImageView
             android:id="@+id/black"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/wasp"
             android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/item"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/fly"
             android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/boost"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/mouse"
             android:visibility="invisible"/>
 
