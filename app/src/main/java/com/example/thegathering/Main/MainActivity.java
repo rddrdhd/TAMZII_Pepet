@@ -1,11 +1,9 @@
 package com.example.thegathering.Main;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +16,7 @@ import com.example.thegathering.First.FirstActivity;
 import com.example.thegathering.R;
 import com.example.thegathering.Second.SecondActivity;
 import com.example.thegathering.Third.ThirdActivity;
+import com.example.thegathering.Utils.Score;
 
 public class MainActivity extends AppCompatActivity {
     Pet pet;
@@ -96,64 +95,31 @@ public class MainActivity extends AppCompatActivity {
 
     /* ****************************************************************************************** */
     public void fullscreenAct(View view){
-        //Intent i = new Intent(this, FullscreenActivity.class);
-       // startActivityForResult(i, 1);
         Intent i = new Intent(this, FirstActivity.class);
         startActivity(i);
     }
 
     public void secondAct(View view){
         Intent i = new Intent(this, SecondActivity.class);
-       // startActivityForResult(i, 2);
         startActivity(i);
     }
 
     public void thirdAct(View view){
         Intent i = new Intent(this, ThirdActivity.class);
-        startActivityForResult(i, 3);
+        startActivity(i);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                int result=data.getIntExtra("First", 0);
-                Log.d("first", ""+result);
-
-                Toast.makeText(getApplicationContext(), result+"from first", Toast.LENGTH_SHORT).show();
-                pet.cheer(result);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "!onActivityResult!1", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (requestCode == 2) {
-            if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("Second");
-
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "!onActivityResult!2", Toast.LENGTH_SHORT).show();
-            }
-        }
-        if (requestCode == 3) {
-            if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("Third");
-
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "!onActivityResult!3", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }//onActivityResult
-
 
     /* ****************************************************************************************** */
     public void updateTextViews(){
+
+        if(Score.firstGame != 0){
+            pet.cheer(Score.firstGame);
+            Score.firstGame = 0;
+        }
+        if(Score.thirdGame != 0){
+            pet.feed(Score.thirdGame/10);
+            Score.thirdGame = 0;
+        }
         tw0.setText("Love: "+pet.love());
         tw1.setText("Happ: "+pet.happy());
         tw2.setText("Fed:"+pet.fed());

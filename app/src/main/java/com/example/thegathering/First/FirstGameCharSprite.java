@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 public class FirstGameCharSprite {
     private Bitmap image;
     public int x, y;
-    private int xVelocity = 10;
     public int yVelocity = 5;
     public FirstGameCharSprite(Bitmap bmp){
         image = bmp;
@@ -18,7 +17,7 @@ public class FirstGameCharSprite {
     }
 
     public void update(){
-        y += yVelocity;
+       if(FirstActivity.start_flg) y += yVelocity;
     }
 
 }

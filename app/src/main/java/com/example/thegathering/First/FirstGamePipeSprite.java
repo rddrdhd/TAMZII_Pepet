@@ -7,9 +7,7 @@ import android.graphics.Canvas;
 public class FirstGamePipeSprite {
     private Bitmap image, image2;
     public int xX, yY;
-    private int xVelocity = 10;
-    private int screenHeight =
-            Resources.getSystem().getDisplayMetrics().heightPixels;
+    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     public FirstGamePipeSprite (Bitmap bmp, Bitmap bmp2, int x, int y) {
         image = bmp;
@@ -27,12 +25,11 @@ public class FirstGamePipeSprite {
                 ((screenHeight / 2) + (FirstGameView.gapHeight / 2)) + yY,
                 null);
     }
-    public void update() {
-        xX -= FirstGameView.velocity;
 
-        if(xX <= 1-image.getWidth()){
-          //  xX = 2400;
-        }
+    public void update() {
+        if(FirstActivity.start_flg)
+            xX -= FirstGameView.velocity;
+
     }
 
 }
