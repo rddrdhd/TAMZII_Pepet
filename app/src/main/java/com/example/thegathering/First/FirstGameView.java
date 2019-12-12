@@ -22,9 +22,10 @@ import java.util.Random;
 
 public class FirstGameView extends android.view.SurfaceView implements android.view.SurfaceHolder.Callback  {
 
-    private MainThread thread;
+    public MainThread thread;
     private FirstGameCharSprite characterSprite;
     public FirstGamePipeSprite pipe1, pipe2, pipe3;
+
 
     public static int heroSize = 200;
     public static int gapHeight = 500;
@@ -53,10 +54,12 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
+
+        if(FirstActivity.start_flg)characterSprite.y = characterSprite.y - (characterSprite.yVelocity * 12);
 
         Log.d("score", Score.firstGame+"");
         Log.d("scoreRound",Score.firstGameRound+"");
+        Log.d("record",Score.firstGameRecord+"");
         return super.onTouchEvent(event);
     }
 
@@ -64,10 +67,8 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        Score.firstGame = 0;
         Score.firstGameRound = 0;
         Bitmap bmp, bmp1, bmp2, resized, resized1, resized2;
-
 
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.squarepepe);
         bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.pipe);
@@ -94,6 +95,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         boolean retry = true;
         while (retry) {
             try {
+                FirstActivity.end_flg = true;
                 thread.setRunning(false);
                 thread.join();
             } catch (InterruptedException e) {
@@ -101,9 +103,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
             }
             retry = false;
         }
-
     }
-
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -111,9 +111,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         super.draw(canvas);
         if (canvas != null) {
             canvas.drawColor(R.color.white);
-           // Paint paint = new Paint();
-           // paint.setColor(Color.rgb(250, 0, 0));
-           // canvas.drawRect(100, 100, 200, 200, paint);
             characterSprite.draw(canvas);
             pipe1.draw(canvas);
             pipe2.draw(canvas);
@@ -167,7 +164,8 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
                 Random r = new Random();
                 int value1 = r.nextInt(500);
                 int value2 = r.nextInt(500);
-                pipe.xX = screenWidth + value1 + 1600;
+                pipe.xX = screenWidth + value1 + 2*screenWidth;
+                Log.d("obrazovkawidth",Integer.toString(screenWidth));
                 pipe.yY = value2 - 250;
             }
         }
@@ -181,6 +179,12 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     public void resetLevel() {
         FirstActivity.start_flg = false;
 
+        //FirstActivity.checkScore();
+
+        Score.firstGame += Score.firstGameRound;
+        if(Score.firstGameRound>Score.firstGameRecord)Score.firstGameRecord=Score.firstGameRound;
+        Score.firstGameRound = 0;
+
         characterSprite.y = 100;
         pipe1.xX = 2000;
         pipe1.yY = 0;
@@ -188,11 +192,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         pipe2.yY = 200;
         pipe3.xX = 3200;
         pipe3.yY = 250;
-
-        Score.firstGame += Score.firstGameRound;
-        Score.firstGameRound = 0;
-
-
     }
 
 }

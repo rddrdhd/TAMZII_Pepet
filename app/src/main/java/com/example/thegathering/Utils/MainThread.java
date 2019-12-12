@@ -46,7 +46,7 @@ public class MainThread extends Thread {
             } catch (Exception e) {
                 Log.e("mainThread", ""+e);}
             finally {
-                if (canvas != null)            {
+                if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
                     }
