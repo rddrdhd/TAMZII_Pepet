@@ -1,4 +1,4 @@
-package com.example.thegathering.Second;
+package com.example.thegathering.Fourth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +43,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SecondActivity extends AppCompatActivity {
+public class FourthActivity extends AppCompatActivity {
     private CameraBridgeViewBase mOpenCvCameraView;
     private static final String TAG = "OpenCV";
     private CascadeClassifier cascadeClassifier;
@@ -84,7 +84,7 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_fourth);
 
         int requestCode = 200;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -149,9 +149,8 @@ public class SecondActivity extends AppCompatActivity {
 
     public void takePhoto(View view) {
 
-        /* zavolat aktivitu, ktera umozni pomoci kamery poridit fotku a poslat ji do metody onActivityResult
-           https://developer.android.com/training/camera/photobasics
-        */
+        //   https://developer.android.com/training/camera/photobasics
+
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent

@@ -207,7 +207,7 @@
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="secondAct"
+                    android:onClick="fourthAct"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:text="take me out!"
