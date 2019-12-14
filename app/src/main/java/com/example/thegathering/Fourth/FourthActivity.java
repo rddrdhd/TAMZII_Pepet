@@ -22,7 +22,6 @@ import androidx.core.content.FileProvider;
 import com.example.thegathering.R;
 
 import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -44,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FourthActivity extends AppCompatActivity {
-    private CameraBridgeViewBase mOpenCvCameraView;
+   // private CameraBridgeViewBase mOpenCvCameraView;
     private static final String TAG = "OpenCV";
     private CascadeClassifier cascadeClassifier;
     Button camButton, detectButton, processButton;
@@ -68,9 +67,6 @@ public class FourthActivity extends AppCompatActivity {
                 case LoaderCallbackInterface.SUCCESS:
                 {
                     Log.d(TAG, "OpenCV loaded successfully");
-                    //System.loadLibrary("detection_based_tracker");
-                    //mOpenCvCameraView.enableView();
-
                 } break;
                 default:
                 {
@@ -96,19 +92,12 @@ public class FourthActivity extends AppCompatActivity {
         detectButton = findViewById(R.id.detectButton);
         processButton = findViewById(R.id.processButton);
 
-
         detectButton.setEnabled(false);
         processButton.setEnabled(false);
 
 
         OpenCVLoader.initDebug();
         initializeOpenCVDependencies();
-    }
-
-    private void showImg(Mat img) {
-        Bitmap bm = Bitmap.createBitmap(img.cols(), img.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(img, bm);
-        imageView.setImageBitmap(bm);
     }
 
     @Override
@@ -123,34 +112,11 @@ public class FourthActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeOpenCVDependencies() {
-        try{
-            // Copy the resource into a temp file so OpenCV can load it
-            InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
-            File cascadeDir = getDir("cascade", Context.MODE_APPEND);
-            File mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
-            FileOutputStream os = new FileOutputStream(mCascadeFile);
-
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = is.read(buffer)) != -1) {
-                os.write(buffer, 0, bytesRead);
-            }
-            is.close();
-            os.close();
-
-            // Load the cascade classifier
-            cascadeClassifier = new CascadeClassifier(mCascadeFile.getAbsolutePath());
-            Log.e("OpenCVActivity", "loading cascade OK");
-        } catch (Exception e) {
-            Log.e("OpenCVActivity", "Error loading cascade", e);
-        }
-    }
+    /* ****************************************************************************************** */
 
     public void takePhoto(View view) {
 
         //   https://developer.android.com/training/camera/photobasics
-
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -177,13 +143,12 @@ public class FourthActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
             Bitmap imageBitmap = getBitmap(currentPhotoPath);
 
             imageView.setImageBitmap(imageBitmap);
             originalFace = imageBitmap;
 
-            detectButton.setEnabled(true);
+            detectFace();
         }
     }
 
@@ -200,7 +165,6 @@ public class FourthActivity extends AppCompatActivity {
                 storageDir      /* directory */
         );
 
-        // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -221,7 +185,7 @@ public class FourthActivity extends AppCompatActivity {
         }
     }
 
-    public void detectFace(View view) {
+    public void detectFace() {
         /* Obraz v promenne Mat se pouzije jako vstup pro detektor tvari
            + zobrazit vyslednou detekci */
 
@@ -250,7 +214,7 @@ public class FourthActivity extends AppCompatActivity {
         for (Rect rect : facesArray) {
 
             Bitmap smile = BitmapFactory.decodeResource(this.getResources(),
-                    R.drawable.happypepe);
+                    R.drawable.pepefacefront);
             smile = Bitmap.createScaledBitmap(smile, rect.width, rect.height, false);
 
             face = overlay(face, smile, rect);
@@ -269,24 +233,13 @@ public class FourthActivity extends AppCompatActivity {
 
     //tmp
     public void save(View view){
-       /* String result="from second";
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("Second",result);
-        setResult(Activity.RESULT_OK,returnIntent);
-        finish();*/
-       String fileName = "PepePic"+new Date().getTime();
-        /*new ImageSaver(getApplicationContext()).
-                setExternal(true).
-                setFileName(fileName).
-                setDirectoryName("images").
-                save(finalFace);*/
+        String fileName = "PepePic"+new Date().getTime();
         saveImage(getApplicationContext(), finalFace, fileName, "png");
         Log.d("pic", fileName+" saved!");
     }
 
     public void saveImage(Context context, Bitmap bitmap, String name, String extension){
         name = name + "." + extension;
-        //FileOutputStream fileOutputStream;
 
         try {
             String path = Environment.getExternalStorageDirectory().toString();
@@ -301,11 +254,33 @@ public class FourthActivity extends AppCompatActivity {
 
             MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
 
-            /* fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            fileOutputStream.close();*/
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void initializeOpenCVDependencies() {
+        try{
+            // Copy the resource into a temp file so OpenCV can load it
+            InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
+            File cascadeDir = getDir("cascade", Context.MODE_APPEND);
+            File mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
+            FileOutputStream os = new FileOutputStream(mCascadeFile);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            is.close();
+            os.close();
+
+            // Load the cascade classifier
+            cascadeClassifier = new CascadeClassifier(mCascadeFile.getAbsolutePath());
+            Log.e("OpenCVActivity", "loading cascade OK");
+        } catch (Exception e) {
+            Log.e("OpenCVActivity", "Error loading cascade", e);
+        }
+    }
+
 }
