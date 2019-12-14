@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.thegathering.R;
+import com.example.thegathering.Utils.Score;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -94,7 +95,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         tw = findViewById(R.id.textViewPhoto);
         imageView = findViewById(R.id.imageView);
         camButton = findViewById(R.id.camButton);
-        tw.setText("Please take a photo of some face(s).");
+        tw.setText("Please take a photo of some face(s). Pepe likes to be with friends, more faces = more socialized Pepe!");
 
         OpenCVLoader.initDebug();
         initializeOpenCVDependencies();
@@ -245,10 +246,9 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         if (facesArray.length == 0) {
             tw.setText("Couldnt find any faces! Try it again please");
         } else {
+            Score.fourthGame += 10*facesArray.length;
             for (Rect rect : facesArray) {
-                //Imgproc.rectangle(paintMat, rect.tl(), rect.br(), new Scalar(0, 255, 0, 255), 6);
-                //Log.d("imgRect", rect.toString());
-                if(rect.height>200){
+                if(rect.height>200 && rect.width>200){
                     Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
                     Utils.matToBitmap(paintMat, bm);
                     imageView.setImageBitmap(bm);
@@ -268,7 +268,6 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
 
             Bitmap smile = BitmapFactory.decodeResource(this.getResources(),
                     processFaceID);
-            Log.d("imgID", ""+R.drawable.bg);
             smile = Bitmap.createScaledBitmap(smile, rect.width, rect.height, false);
 
             face = overlay(face, smile, rect);
@@ -289,6 +288,8 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
 
     //tmp
     public void save(View view){
+        Score.fourthGame += 50;
+
         String fileName = "PepePic"+new Date().getTime();
         saveImage(getApplicationContext(), finalFace, fileName, "png");
         Log.d("pic", fileName+" saved!");

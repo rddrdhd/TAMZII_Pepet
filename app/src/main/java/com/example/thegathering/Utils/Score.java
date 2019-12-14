@@ -5,6 +5,9 @@ public class Score {
     public static int firstGameRound;
     public static int firstGameRecord;
 
+    public static int secondGame;
 
     public static int thirdGame;
+
+    public static int fourthGame;
 }
