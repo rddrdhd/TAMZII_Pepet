@@ -154,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
             pet.feed(Score.thirdGame);
             Score.thirdGame = 0;
         }
+        if(Score.fourthGame != 0){
+            pet.socialize(Score.fourthGame);
+            Score.fourthGame = 0;
+        }
 
         pb0.setProgress(pet.love());
         pb1.setProgress(pet.happy());
