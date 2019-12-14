@@ -160,8 +160,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.d("takePhoto", ""+ex);
+                Log.e("takePhoto", ""+ex);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -179,24 +178,24 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bitmap imageBitmap = getBitmap(currentPhotoPath);
-
             imageView.setImageBitmap(imageBitmap);
             originalFace = imageBitmap;
+int faces = detectFaces();
+            if (faces == 0) {
+                tw.setText("Couldnt find any faces, please try it again");
+            } else {
+                // Create dropdown
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                        R.array.faces_array, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+                spinner.setOnItemSelectedListener(this);
+                spinner.setVisibility(View.VISIBLE);
 
-            detectFace();
-
-
-// Create an ArrayAdapter using the string array and a default spinner layout
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.faces_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-            spinner.setAdapter(adapter);
-
-            spinner.setOnItemSelectedListener(this);
-            spinner.setVisibility(View.VISIBLE);
-            saveButt.setVisibility(View.VISIBLE);
+                saveButt.setVisibility(View.VISIBLE);
+            }
+        } else {
+            tw.setText("Something went wrong with capturing photo, please try it again");
         }
     }
 
@@ -233,7 +232,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
-    public void detectFace() {
+    public int detectFaces() {
         /* Obraz v promenne Mat se pouzije jako vstup pro detektor tvari
            + zobrazit vyslednou detekci */
 
@@ -241,21 +240,17 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         cascadeClassifier.detectMultiScale(gMat, gRects);
         facesArray = gRects.toArray();
         paintMat = gMat.clone();
+        int facesCount = 0;
 
-
-        if (facesArray.length == 0) {
-            tw.setText("Couldnt find any faces! Try it again please");
-        } else {
             Score.fourthGame += 10*facesArray.length;
             for (Rect rect : facesArray) {
-                if(rect.height>200 && rect.width>200){
                     Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
                     Utils.matToBitmap(paintMat, bm);
-                    imageView.setImageBitmap(bm);
-                }
+                    if(rect.width>200&rect.height>200){facesCount++;}
             }
-            tw.setText("Are the faces in squares? Select the mask!");
-        }
+        return facesCount;
+
+
 
     }
 
@@ -268,10 +263,15 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
 
             Bitmap smile = BitmapFactory.decodeResource(this.getResources(),
                     processFaceID);
-            smile = Bitmap.createScaledBitmap(smile, rect.width, rect.height, false);
 
-            face = overlay(face, smile, rect);
-            imageView.setImageBitmap(face);
+            if(rect.height>200 && rect.width>200){
+
+                smile = Bitmap.createScaledBitmap(smile, rect.width, rect.height, false);
+
+                face = overlay(face, smile, rect);
+                imageView.setImageBitmap(face);
+            }
+
         }
         finalFace = face;
 
