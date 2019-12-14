@@ -25,7 +25,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.thegathering.First.FirstActivity;
 import com.example.thegathering.R;
-import com.example.thegathering.Second.SecondActivity;
+import com.example.thegathering.Fourth.FourthActivity;
 import com.example.thegathering.Third.ThirdActivity;
 import com.example.thegathering.Utils.Score;
 import com.google.gson.Gson;
@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void secondAct(View view){
-        Intent i = new Intent(this, SecondActivity.class);
+    public void fourthAct(View view){
+        Intent i = new Intent(this, FourthActivity.class);
         startActivity(i);
     }
 
