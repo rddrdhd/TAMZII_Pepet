@@ -3,4 +3,6 @@
 
 Main activity is pet with stats. You can fill the stats by playing minigames
 
-This app is in Java and uses [OpenCV lib](https://github.com/opencv/opencv/tree/3.4.7) for image processing.
+This app is in Java and uses
+[OpenCV lib](https://github.com/opencv/opencv/tree/3.4.7) for image processing and
+[GIF lib](https://github.com/koral--/android-gif-drawable) for animated pictures.
