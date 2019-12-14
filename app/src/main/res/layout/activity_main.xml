@@ -31,13 +31,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
+<!-- 0 - Love -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout0">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -56,7 +55,7 @@
                         android:textSize="24sp" />
 
                     <ProgressBar
-                        android:id="@+id/progressBar1"
+                        android:id="@+id/progressBar0"
                         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
@@ -64,7 +63,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/button0"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,6 +78,7 @@
 
             </LinearLayout>
 
+<!-- 1 - Happy -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,7 +102,7 @@
                         android:textSize="24sp" />
 
                     <ProgressBar
-                        android:id="@+id/progressBar2"
+                        android:id="@+id/progressBar1"
                         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
@@ -126,6 +126,7 @@
 
             </LinearLayout>
 
+<!-- 2 - Hygiene -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -140,6 +141,54 @@
 
                     <TextView
                         android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Hygiene"
+                        android:textAlignment="viewStart"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar2"
+                        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:progress="25" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="secondAct"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="wash me please"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    android:textColorLink="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+<!-- 3 - Fed -->
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -172,7 +221,9 @@
 
             </LinearLayout>
 
+<!-- 4 - Social -->
             <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -184,7 +235,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Social"
@@ -203,7 +254,7 @@
 
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/button4"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

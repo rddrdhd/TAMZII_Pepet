@@ -24,21 +24,20 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.thegathering.First.FirstActivity;
-import com.example.thegathering.R;
 import com.example.thegathering.Fourth.FourthActivity;
+import com.example.thegathering.R;
+import com.example.thegathering.Second.SecondActivity;
 import com.example.thegathering.Third.ThirdActivity;
 import com.example.thegathering.Utils.Score;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity {
     Pet pet;
-    ProgressBar pb1, pb2, pb3, pb4;
+    ProgressBar pb0, pb1, pb2, pb3, pb4;
     ImageView imgPet;
     Handler handler = new Handler();
     Runnable runnable;
     SharedPreferences settings;
-    int delay = 10*1000; //Delay for 5 seconds
+    int delay = 10*1000; //Delay for 10 seconds
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -53,13 +52,14 @@ public class MainActivity extends AppCompatActivity {
         Score.thirdGame = 0;
 
         imgPet = findViewById(R.id.imageView);
+        pb0 = findViewById(R.id.progressBar0);
         pb1 = findViewById(R.id.progressBar1);
         pb2 = findViewById(R.id.progressBar2);
         pb3 = findViewById(R.id.progressBar3);
         pb4 = findViewById(R.id.progressBar4);
 
 
-        pet = new Pet();
+        pet = fetchPet();
         updateProgressBars();
 
         //for timestamps
@@ -83,19 +83,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //createPepeNotificationChannel();
+        createPepeNotificationChannel();
         //createPepeNotification();
     }
 
 
     @Override
     protected void onResume() {
-        Gson gson = new Gson();
-        String json = settings.getString("PET", null);
-        if (json!=null){
-            pet = gson.fromJson(json, Pet.class);
-        }
-       updateProgressBars();
+        pet = fetchPet();
+        updateProgressBars();
+
         //start handler as activity become visible
         handler.postDelayed( runnable = new Runnable() {
             public void run() {
@@ -116,12 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        Gson gson = new GsonBuilder().create();
+        SharedPreferences.Editor e = settings.edit();
 
-        String json = gson.toJson(pet);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("PET", json);
-        editor.apply();
+        savePetStats(e);
 
         super.onStop();
     }
@@ -133,13 +127,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void fourthAct(View view){
-        Intent i = new Intent(this, FourthActivity.class);
+    public void secondAct(View view){
+        Intent i = new Intent(this, SecondActivity.class);
         startActivity(i);
     }
 
     public void thirdAct(View view){
         Intent i = new Intent(this, ThirdActivity.class);
+        startActivity(i);
+    }
+
+    public void fourthAct(View view){
+        Intent i = new Intent(this, FourthActivity.class);
         startActivity(i);
     }
 
@@ -156,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
             Score.thirdGame = 0;
         }
 
-        pb1.setProgress(pet.love());
-        pb2.setProgress(pet.happy());
+        pb0.setProgress(pet.love());
+        pb1.setProgress(pet.happy());
         pb3.setProgress(pet.fed());
         pb4.setProgress(pet.social());
     }
@@ -216,5 +215,30 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1001, intent, 0);
 //Following will set the tap action
         builder.setContentIntent(pendingIntent);
+    }
+
+
+
+    private void savePetStats(SharedPreferences.Editor e){
+        e.putInt("PET_FED",pet.fed());
+        e.putInt("PET_HAPPY",pet.happy());
+        e.putInt("PET_SOCIAL",pet.social());
+        e.putInt("PET_LOVE",pet.love());
+        e.putInt("PET_HYGIENE",pet.hygiene());
+        e.putString("PET_BORN",pet.getBorn());
+
+        e.apply();
+    }
+
+    private Pet fetchPet(){
+        pet = new Pet();
+        pet.setStatFed(settings.getInt("PET_FED",pet.fed()));
+        pet.setStatHappy(settings.getInt("PET_HAPPY",pet.happy()));
+        pet.setStatSocial(settings.getInt("PET_SOCIAL",pet.social()));
+        pet.setStatLove(settings.getInt("PET_LOVE",pet.love()));
+        pet.setStatHygiene(settings.getInt("PET_HYGIENE",pet.hygiene()));
+        pet.setBorn(settings.getString("PET_BORN",pet.getBorn()));
+        return pet;
+
     }
 }

@@ -13,8 +13,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -29,8 +33,6 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.io.File;
@@ -42,21 +44,24 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FourthActivity extends AppCompatActivity {
+public class FourthActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
    // private CameraBridgeViewBase mOpenCvCameraView;
     private static final String TAG = "OpenCV";
     private CascadeClassifier cascadeClassifier;
-    Button camButton, detectButton, processButton;
+    Button camButton;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
+    int processFaceID;
     ImageView imageView;
     MatOfRect gRects;
     Mat gMat;
     Rect[] facesArray;
     Mat paintMat;
-
+    Spinner spinner;
+    TextView tw;
     Bitmap originalFace;
     Bitmap finalFace;
+    Button saveButt;
 
     private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"};
 
@@ -86,25 +91,53 @@ public class FourthActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(permissions, requestCode);
         }
-
+        tw = findViewById(R.id.textViewPhoto);
         imageView = findViewById(R.id.imageView);
         camButton = findViewById(R.id.camButton);
-        detectButton = findViewById(R.id.detectButton);
-        processButton = findViewById(R.id.processButton);
-
-        detectButton.setEnabled(false);
-        processButton.setEnabled(false);
-
+        tw.setText("Please take a photo of some face(s).");
 
         OpenCVLoader.initDebug();
         initializeOpenCVDependencies();
+
+        spinner = findViewById(R.id.photoSpinner);
+
+        spinner.setVisibility(View.GONE);
+        saveButt=findViewById(R.id.button4);
+        saveButt.setVisibility(View.GONE);
+
+
+    }
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        String str = parent.getItemAtPosition(pos).toString();
+        if(str.equals("Pepe")){
+            processFaceID = R.drawable.pepefacefront;
+        } else if(str.equals("Trollface")){
+            processFaceID = R.drawable.troll;
+        } else if(str.equals("FUUUUUUU")){
+            processFaceID = R.drawable.fuuuu;
+        } else if(str.equals("Me gusta")){
+            processFaceID = R.drawable.megusta;
+        } else if(str.equals("Smiley")){
+            processFaceID = R.drawable.smile;
+        } else if(str.equals("Smiley (transparent)")){
+            processFaceID = R.drawable.smiletrans;
+        }else if(str.equals("Square")){
+            processFaceID = R.drawable.square;
+        }
+        processImage();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        processFaceID = R.drawable.pepefacefront;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         if (!OpenCVLoader.initDebug()) {
-            Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            Log.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback);
         } else {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
@@ -142,6 +175,7 @@ public class FourthActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bitmap imageBitmap = getBitmap(currentPhotoPath);
 
@@ -149,6 +183,19 @@ public class FourthActivity extends AppCompatActivity {
             originalFace = imageBitmap;
 
             detectFace();
+
+
+// Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.faces_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+            spinner.setAdapter(adapter);
+
+            spinner.setOnItemSelectedListener(this);
+            spinner.setVisibility(View.VISIBLE);
+            saveButt.setVisibility(View.VISIBLE);
         }
     }
 
@@ -194,19 +241,25 @@ public class FourthActivity extends AppCompatActivity {
         facesArray = gRects.toArray();
         paintMat = gMat.clone();
 
-        for (Rect rect : facesArray) {
-            Imgproc.rectangle(paintMat, rect.tl(), rect.br(), new Scalar(0, 255, 0, 255), 6);
 
-            Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
-            Utils.matToBitmap(paintMat, bm);
-            imageView.setImageBitmap(bm);
+        if (facesArray.length == 0) {
+            tw.setText("Couldnt find any faces! Try it again please");
+        } else {
+            for (Rect rect : facesArray) {
+                //Imgproc.rectangle(paintMat, rect.tl(), rect.br(), new Scalar(0, 255, 0, 255), 6);
+                //Log.d("imgRect", rect.toString());
+                if(rect.height>200){
+                    Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(paintMat, bm);
+                    imageView.setImageBitmap(bm);
+                }
+            }
+            tw.setText("Are the faces in squares? Select the mask!");
         }
-        processButton.setEnabled(true);
+
     }
 
-
-
-    public void processImage(View view) {
+    public void processImage() {
         //Nadetekovanou tvar prekreslit
 
         paintMat = gMat.clone();
@@ -214,13 +267,16 @@ public class FourthActivity extends AppCompatActivity {
         for (Rect rect : facesArray) {
 
             Bitmap smile = BitmapFactory.decodeResource(this.getResources(),
-                    R.drawable.pepefacefront);
+                    processFaceID);
+            Log.d("imgID", ""+R.drawable.bg);
             smile = Bitmap.createScaledBitmap(smile, rect.width, rect.height, false);
 
             face = overlay(face, smile, rect);
             imageView.setImageBitmap(face);
         }
         finalFace = face;
+
+        tw.setText("Choose your mask(s) and save pic!");
     }
 
     public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2, Rect rect) {
