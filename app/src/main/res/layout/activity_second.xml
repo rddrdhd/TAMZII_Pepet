@@ -6,6 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".Second.SecondActivity">
 
+    <TextView
+        android:id="@+id/scoreLabel2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Score: 0"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/highScoreLabel2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="High score: 0"
+        android:textAlignment="textStart"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <FrameLayout
         android:id="@+id/danceFrame"
         android:layout_width="match_parent"
@@ -32,9 +62,10 @@
 
             <ProgressBar
                 android:id="@+id/progressBarDance"
-                style="?android:attr/progressBarStyleHorizontal"
+                style="@android:style/Widget.Holo.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:progress="1" />
 
         </LinearLayout>
 
@@ -61,6 +92,36 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/down" />
+
+        <LinearLayout
+            android:id="@+id/startLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="20dp"
+                android:text="Dance with your Pepe! Try to tilt your phone in direction when arrow meets Progressline!"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="START"
+                android:layout_marginTop="60dp"
+                android:onClick="startGame"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quit"
+                android:layout_marginTop="20dp"
+                android:onClick="quitGame"/>
+        </LinearLayout>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

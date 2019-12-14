@@ -165,7 +165,7 @@
                     android:onClick="secondAct"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="wash me please"
+                    android:text="dance with me!"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textColorLink="@color/white"
