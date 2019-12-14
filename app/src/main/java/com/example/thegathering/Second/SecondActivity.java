@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,8 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
     TextView textView;
     SensorManager sensorManager;
     Sensor sensor;
+    FrameLayout danceFrame;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
 
         Score.firstGame = 0;
+        Score.secondGame = 0;
         Score.thirdGame = 0;
+        Score.fourthGame = 0;
 
         imgPet = findViewById(R.id.imageView);
         pb0 = findViewById(R.id.progressBar0);
@@ -228,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         e.putInt("PET_HAPPY",pet.happy());
         e.putInt("PET_SOCIAL",pet.social());
         e.putInt("PET_LOVE",pet.love());
-        e.putInt("PET_HYGIENE",pet.hygiene());
+        e.putInt("PET_FIT",pet.fit());
         e.putString("PET_BORN",pet.getBorn());
 
         e.apply();
@@ -240,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         pet.setStatHappy(settings.getInt("PET_HAPPY",pet.happy()));
         pet.setStatSocial(settings.getInt("PET_SOCIAL",pet.social()));
         pet.setStatLove(settings.getInt("PET_LOVE",pet.love()));
-        pet.setStatHygiene(settings.getInt("PET_HYGIENE",pet.hygiene()));
+        pet.setStatFit(settings.getInt("PET_FIT",pet.fit()));
         pet.setBorn(settings.getString("PET_BORN",pet.getBorn()));
         return pet;
 
