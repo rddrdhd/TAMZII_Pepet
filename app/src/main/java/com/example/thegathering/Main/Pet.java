@@ -15,6 +15,7 @@ public class Pet {
     private int statHappy;
     private int statFed;
     private int statLove;
+    private int statHygiene;
 
     Pet(){
         this.name = "Pet";
@@ -23,51 +24,50 @@ public class Pet {
         this.statFed = 80;
         this.statSocial = 80;
         this.statLove = 80;
+        this.statHygiene = 80;
         this.born = new Timestamp(System.currentTimeMillis());
     }
 
     public void decreaseStats(){
         Random r = new Random();
+
         this.love(-r.nextInt(5));
         this.cheer(-r.nextInt(4));
         this.feed(-r.nextInt(3));
         this.socialize(-r.nextInt(2));
+
+        if (this.fed() > (max_stat_value/2))
+            this.clean(-r.nextInt(5));
+        else
+            this.clean(-r.nextInt(2));
     }
 
     public void feed(int value) {
-        int stat = this.statFed;
-        if(stat+value <= max_stat_value && stat+value > min_stat_value)
-            stat+=value;
-        else
-            stat = value>0?max_stat_value:min_stat_value;
-        this.statFed = stat;
+        this.statFed = increaseStat(this.statFed, value);
     }
 
     public void socialize(int value) {
-        int stat = this.statSocial;
-        if(stat+value <= max_stat_value && stat+value > min_stat_value)
-            stat+=value;
-        else
-            stat = value>0?max_stat_value:min_stat_value;
-        this.statSocial = stat;
+        this.statSocial = increaseStat(this.statSocial, value);
     }
 
     public void cheer(int value) {
-        int stat = this.statHappy;
-        if(stat+value <= max_stat_value && stat+value > min_stat_value)
-            stat+=value;
-        else
-            stat = value>0?max_stat_value:min_stat_value;
-        this.statHappy = stat;
+        this.statHappy = increaseStat(this.statHappy, value);
     }
 
     public void love(int value) {
-        int stat = this.statLove;
+        this.statLove = increaseStat(this.statLove, value);
+    }
+
+    public void clean(int value) {
+        this.statHygiene = increaseStat(this.statHygiene, value);
+    }
+
+    private int increaseStat(int stat, int value){
         if(stat+value <= max_stat_value && stat+value > min_stat_value)
             stat+=value;
         else
             stat = value>0?max_stat_value:min_stat_value;
-        this.statLove = stat;
+        return stat;
     }
 
     public int fed(){
@@ -85,6 +85,8 @@ public class Pet {
     public int love(){
         return this.statLove;
     }
+
+    public int hygiene() {return this.statHygiene;}
 
 
 

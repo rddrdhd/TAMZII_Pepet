@@ -24,8 +24,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.thegathering.First.FirstActivity;
-import com.example.thegathering.R;
 import com.example.thegathering.Fourth.FourthActivity;
+import com.example.thegathering.R;
+import com.example.thegathering.Second.SecondActivity;
 import com.example.thegathering.Third.ThirdActivity;
 import com.example.thegathering.Utils.Score;
 import com.google.gson.Gson;
@@ -33,7 +34,7 @@ import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity {
     Pet pet;
-    ProgressBar pb1, pb2, pb3, pb4;
+    ProgressBar pb0, pb1, pb2, pb3, pb4;
     ImageView imgPet;
     Handler handler = new Handler();
     Runnable runnable;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Score.thirdGame = 0;
 
         imgPet = findViewById(R.id.imageView);
+        pb0 = findViewById(R.id.progressBar0);
         pb1 = findViewById(R.id.progressBar1);
         pb2 = findViewById(R.id.progressBar2);
         pb3 = findViewById(R.id.progressBar3);
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //createPepeNotificationChannel();
+        createPepeNotificationChannel();
         //createPepeNotification();
     }
 
@@ -133,13 +135,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void fourthAct(View view){
-        Intent i = new Intent(this, FourthActivity.class);
+    public void secondAct(View view){
+        Intent i = new Intent(this, SecondActivity.class);
         startActivity(i);
     }
 
     public void thirdAct(View view){
         Intent i = new Intent(this, ThirdActivity.class);
+        startActivity(i);
+    }
+
+    public void fourthAct(View view){
+        Intent i = new Intent(this, FourthActivity.class);
         startActivity(i);
     }
 
@@ -156,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
             Score.thirdGame = 0;
         }
 
-        pb1.setProgress(pet.love());
-        pb2.setProgress(pet.happy());
+        pb0.setProgress(pet.love());
+        pb1.setProgress(pet.happy());
         pb3.setProgress(pet.fed());
         pb4.setProgress(pet.social());
     }

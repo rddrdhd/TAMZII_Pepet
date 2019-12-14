@@ -3,4 +3,15 @@
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+        <string-array name="faces_array">
+            <item>Square</item>
+            <item>Pepe</item>
+            <item>Trollface</item>
+            <item>FUUUUUUU</item>
+            <item>Me gusta</item>
+            <item>Smiley</item>
+            <item>Smiley (transparent)</item>
+
+        </string-array>
 </resources>
