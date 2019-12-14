@@ -29,8 +29,6 @@ import com.example.thegathering.R;
 import com.example.thegathering.Second.SecondActivity;
 import com.example.thegathering.Third.ThirdActivity;
 import com.example.thegathering.Utils.Score;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity {
     Pet pet;
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Handler handler = new Handler();
     Runnable runnable;
     SharedPreferences settings;
-    int delay = 10*1000; //Delay for 5 seconds
+    int delay = 10*1000; //Delay for 10 seconds
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         pb4 = findViewById(R.id.progressBar4);
 
 
-        pet = new Pet();
+        pet = fetchPet();
         updateProgressBars();
 
         //for timestamps
@@ -92,12 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Gson gson = new Gson();
-        String json = settings.getString("PET", null);
-        if (json!=null){
-            pet = gson.fromJson(json, Pet.class);
-        }
-       updateProgressBars();
+        pet = fetchPet();
+        updateProgressBars();
+
         //start handler as activity become visible
         handler.postDelayed( runnable = new Runnable() {
             public void run() {
@@ -118,12 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        Gson gson = new GsonBuilder().create();
+        SharedPreferences.Editor e = settings.edit();
 
-        String json = gson.toJson(pet);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("PET", json);
-        editor.apply();
+        savePetStats(e);
 
         super.onStop();
     }
@@ -223,5 +215,30 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1001, intent, 0);
 //Following will set the tap action
         builder.setContentIntent(pendingIntent);
+    }
+
+
+
+    private void savePetStats(SharedPreferences.Editor e){
+        e.putInt("PET_FED",pet.fed());
+        e.putInt("PET_HAPPY",pet.happy());
+        e.putInt("PET_SOCIAL",pet.social());
+        e.putInt("PET_LOVE",pet.love());
+        e.putInt("PET_HYGIENE",pet.hygiene());
+        e.putString("PET_BORN",pet.getBorn());
+
+        e.apply();
+    }
+
+    private Pet fetchPet(){
+        pet = new Pet();
+        pet.setStatFed(settings.getInt("PET_FED",pet.fed()));
+        pet.setStatHappy(settings.getInt("PET_HAPPY",pet.happy()));
+        pet.setStatSocial(settings.getInt("PET_SOCIAL",pet.social()));
+        pet.setStatLove(settings.getInt("PET_LOVE",pet.love()));
+        pet.setStatHygiene(settings.getInt("PET_HYGIENE",pet.hygiene()));
+        pet.setBorn(settings.getString("PET_BORN",pet.getBorn()));
+        return pet;
+
     }
 }

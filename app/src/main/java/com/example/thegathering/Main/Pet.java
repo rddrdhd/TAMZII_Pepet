@@ -5,8 +5,7 @@ import java.util.Random;
 
 public class Pet {
     public String name;
-    private float age;
-    Timestamp born;
+    private String born;
 
     private int max_stat_value = 100;
     private int min_stat_value = 0;
@@ -19,16 +18,15 @@ public class Pet {
 
     Pet(){
         this.name = "Pet";
-        this.age = 0;
         this.statHappy = 80;
         this.statFed = 80;
         this.statSocial = 80;
         this.statLove = 80;
         this.statHygiene = 80;
-        this.born = new Timestamp(System.currentTimeMillis());
+        this.born = new Timestamp(System.currentTimeMillis()).toString();
     }
 
-    public void decreaseStats(){
+    void decreaseStats(){
         Random r = new Random();
 
         this.love(-r.nextInt(5));
@@ -42,23 +40,19 @@ public class Pet {
             this.clean(-r.nextInt(2));
     }
 
-    public void feed(int value) {
+    void feed(int value) {
         this.statFed = increaseStat(this.statFed, value);
     }
-
-    public void socialize(int value) {
+    void socialize(int value) {
         this.statSocial = increaseStat(this.statSocial, value);
     }
-
-    public void cheer(int value) {
+    void cheer(int value) {
         this.statHappy = increaseStat(this.statHappy, value);
     }
-
-    public void love(int value) {
+    void love(int value) {
         this.statLove = increaseStat(this.statLove, value);
     }
-
-    public void clean(int value) {
+    void clean(int value) {
         this.statHygiene = increaseStat(this.statHygiene, value);
     }
 
@@ -70,24 +64,40 @@ public class Pet {
         return stat;
     }
 
-    public int fed(){
+    int fed(){
         return this.statFed;
     }
-
-    public int happy(){
+    int happy(){
         return this.statHappy;
     }
-
-    public int social(){
+    int social(){
         return this.statSocial;
     }
-
-    public int love(){
+    int love(){
         return this.statLove;
     }
+    int hygiene() {return this.statHygiene;}
+    String getBorn() {
+        return born;
+    }
 
-    public int hygiene() {return this.statHygiene;}
 
-
-
+    void setStatSocial(int statSocial) {
+        this.statSocial = statSocial;
+    }
+    void setStatHygiene(int statHygiene) {
+        this.statHygiene = statHygiene;
+    }
+    void setStatHappy(int statHappy) {
+        this.statHappy = statHappy;
+    }
+    void setStatFed(int statFed) {
+        this.statFed = statFed;
+    }
+    void setStatLove(int statLove) {
+        this.statLove = statLove;
+    }
+    void setBorn(String born) {
+        this.born = born;
+    }
 }
