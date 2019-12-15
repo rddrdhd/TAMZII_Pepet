@@ -63,6 +63,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
     Bitmap originalFace;
     Bitmap finalFace;
     Button saveButt;
+    String currentPhotoPath;
 
     private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"};
 
@@ -95,7 +96,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         tw = findViewById(R.id.textViewPhoto);
         imageView = findViewById(R.id.imageView);
         camButton = findViewById(R.id.camButton);
-        tw.setText("Please take a photo of some face(s). Pepe likes to be with friends, more faces = more socialized Pepe!");
+        tw.setText("Take a photo of some face(s). Pepe likes to be with friends, more faces = more socialized Pepe!");
 
         OpenCVLoader.initDebug();
         initializeOpenCVDependencies();
@@ -180,10 +181,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
             Bitmap imageBitmap = getBitmap(currentPhotoPath);
             imageView.setImageBitmap(imageBitmap);
             originalFace = imageBitmap;
-int faces = detectFaces();
-            if (faces == 0) {
-                tw.setText("Couldnt find any faces, please try it again");
-            } else {
+            detectFaces();
                 // Create dropdown
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                         R.array.faces_array, android.R.layout.simple_spinner_item);
@@ -193,13 +191,12 @@ int faces = detectFaces();
                 spinner.setVisibility(View.VISIBLE);
 
                 saveButt.setVisibility(View.VISIBLE);
-            }
+
         } else {
             tw.setText("Something went wrong with capturing photo, please try it again");
         }
     }
 
-    String currentPhotoPath;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -232,7 +229,7 @@ int faces = detectFaces();
         }
     }
 
-    public int detectFaces() {
+    public void detectFaces() {
         /* Obraz v promenne Mat se pouzije jako vstup pro detektor tvari
            + zobrazit vyslednou detekci */
 
@@ -240,15 +237,16 @@ int faces = detectFaces();
         cascadeClassifier.detectMultiScale(gMat, gRects);
         facesArray = gRects.toArray();
         paintMat = gMat.clone();
-        int facesCount = 0;
-
+        if(facesArray!=null){
             Score.fourthGame += 10*facesArray.length;
             for (Rect rect : facesArray) {
+                if(rect.height>200&rect.width>200){
+
                     Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
                     Utils.matToBitmap(paintMat, bm);
-                    if(rect.width>200&rect.height>200){facesCount++;}
+                }
             }
-        return facesCount;
+        }
 
 
 
@@ -288,7 +286,7 @@ int faces = detectFaces();
 
     //tmp
     public void save(View view){
-        Score.fourthGame += 50;
+        Score.fourthGame += 20;
 
         String fileName = "PepePic"+new Date().getTime();
         saveImage(getApplicationContext(), finalFace, fileName, "png");
