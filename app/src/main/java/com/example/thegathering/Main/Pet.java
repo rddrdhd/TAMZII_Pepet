@@ -14,7 +14,7 @@ public class Pet {
     private int statHappy;
     private int statFed;
     private int statLove;
-    private int statHygiene;
+    private int statFit;
 
     Pet(){
         this.name = "Pet";
@@ -22,7 +22,7 @@ public class Pet {
         this.statFed = 80;
         this.statSocial = 80;
         this.statLove = 80;
-        this.statHygiene = 80;
+        this.statFit = 80;
         this.born = new Timestamp(System.currentTimeMillis()).toString();
     }
 
@@ -35,9 +35,9 @@ public class Pet {
         this.socialize(-r.nextInt(2));
 
         if (this.fed() > (max_stat_value/2))
-            this.clean(-r.nextInt(5));
+            this.exercise(-r.nextInt(5));
         else
-            this.clean(-r.nextInt(2));
+            this.exercise(-r.nextInt(2));
     }
 
     void feed(int value) {
@@ -52,8 +52,8 @@ public class Pet {
     void love(int value) {
         this.statLove = increaseStat(this.statLove, value);
     }
-    void clean(int value) {
-        this.statHygiene = increaseStat(this.statHygiene, value);
+    void exercise(int value) {
+        this.statFit = increaseStat(this.statFit, value);
     }
 
     private int increaseStat(int stat, int value){
@@ -76,7 +76,7 @@ public class Pet {
     int love(){
         return this.statLove;
     }
-    int hygiene() {return this.statHygiene;}
+    int fit() {return this.statFit;}
     String getBorn() {
         return born;
     }
@@ -85,8 +85,8 @@ public class Pet {
     void setStatSocial(int statSocial) {
         this.statSocial = statSocial;
     }
-    void setStatHygiene(int statHygiene) {
-        this.statHygiene = statHygiene;
+    void setStatFit(int statFit) {
+        this.statFit = statFit;
     }
     void setStatHappy(int statHappy) {
         this.statHappy = statHappy;

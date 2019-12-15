@@ -92,8 +92,6 @@ public class ThirdActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Score.firstGameRecord = highScore;
-        Score.firstGame += score;
         finish();
     }
 
@@ -147,7 +145,6 @@ public class ThirdActivity extends AppCompatActivity {
             betterItem.setY(betterItemY);
         }
 
-        // Black
         badItemY += 18;
 
         float blackCenterX = badItemX + badItem.getWidth() / 2;
