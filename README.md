@@ -9,6 +9,7 @@ This app is in Java and uses
 * `Thread` & `Canvas` for Flappy Pepe minigame  
 * `Timer` & `Handler` for other minigames  
 * `SoundPool` for few minigames
+* `SharedPreferences` for pet's stats and high scores
 
 
 Optimalized for 1080x2280 resolution phone with [Android 9 (API level 28)](https://developer.android.com/about/versions/pie/android-9.0.html).
