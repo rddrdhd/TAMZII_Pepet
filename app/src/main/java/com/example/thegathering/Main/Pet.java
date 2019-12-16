@@ -17,18 +17,18 @@ public class Pet {
     private int statLove;
     private int statFit;
 
-    Pet(){
+    Pet() {
         this.name = "Pet";
-        this.statHappy = 80;
-        this.statFed = 80;
-        this.statSocial = 80;
-        this.statLove = 80;
-        this.statFit = 80;
+        this.statHappy = 90;
+        this.statFed = 90;
+        this.statSocial = 90;
+        this.statLove = 90;
+        this.statFit = 90;
         this.born = new Timestamp(System.currentTimeMillis()).toString();
         this.dead = false;
     }
 
-    void decreaseStats(){
+    void decreaseStats() {
         Random r = new Random();
 
         this.love(-r.nextInt(5));
@@ -58,7 +58,7 @@ public class Pet {
         this.statFit = increaseStat(this.statFit, value);
     }
 
-    private int increaseStat(int stat, int value){
+    private int increaseStat(int stat, int value) {
         if (stat+value <= max_stat_value && stat+value > min_stat_value)
             stat+=value;
         else
@@ -66,30 +66,25 @@ public class Pet {
         return stat;
     }
 
-    int fed(){
+    int fed() {
         return this.statFed;
     }
-    int happy(){
+    int happy() {
         return this.statHappy;
     }
-    int social(){
+    int social() {
         return this.statSocial;
     }
-    int love(){
+    int love() {
         return this.statLove;
     }
     int fit() {return this.statFit;}
     boolean dead() {return this.dead;}
-    String getBorn() {
-        return born;
-    }
 
+    String getBorn() {return born;}
 
-    void setStatSocial(int statSocial) {
-        this.statSocial = statSocial;
-    }
-    void setStatFit(int statFit) {
-        this.statFit = statFit;
+    void setStatSocial(int statSocial) {this.statSocial = statSocial;}
+    void setStatFit(int statFit) {this.statFit = statFit;
     }
     void setStatHappy(int statHappy) {
         this.statHappy = statHappy;
@@ -105,6 +100,6 @@ public class Pet {
     }
 
     void die(){
-        dead = true;
+        this.dead = true;
     }
 }

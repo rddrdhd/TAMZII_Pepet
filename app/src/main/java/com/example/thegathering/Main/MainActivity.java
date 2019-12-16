@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     int delay = 10*1000; //Delay for 10 seconds
     boolean bad_flg, good_flg;
 
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         pb2 = findViewById(R.id.progressBar2);
         pb3 = findViewById(R.id.progressBar3);
         pb4 = findViewById(R.id.progressBar4);
-
 
         pet = fetchPet();
         updateProgressBars();
@@ -104,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         });
         createPepeNotificationChannel();
     }
-
 
     @Override
     protected void onResume() {
@@ -181,21 +178,21 @@ public class MainActivity extends AppCompatActivity {
             Score.fourthGame = 0;
         }
 
-        if (    pet.social() >90 &&
-                pet.fed()    >90 &&
+        if (    pet.fed()    >90 &&
                 pet.fit()    >90 &&
                 pet.love()   >90 &&
                 pet.happy()  >90 &&
+                pet.social() >90 &&
                 !good_flg   ) {
             good_flg = true;
             bad_flg = false;
             createPepeNotificationGood();
         }
 
-        if (   (pet.social() <10 ||
-                pet.fed()    <10 ||
+        if (   (pet.fed()    <10 ||
                 pet.fit()    <10 ||
                 pet.love()   <10 ||
+                pet.social() <10 ||
                 pet.happy()  <10)&&
                 !bad_flg    ) {
             good_flg = false;
@@ -203,8 +200,11 @@ public class MainActivity extends AppCompatActivity {
             createPepeNotificationBad();
         }
 
-        if(pet.social()+pet.fed()+pet.fit()+pet.love()+pet.happy()<10)
+        if (pet.fed()+pet.fit()+pet.love()+pet.happy() < 10) {
+            pet.setStatSocial(0);
             pet.die();
+            createPepeNotificationDead();
+        }
 
         pb0.setProgress(pet.love());
         pb1.setProgress(pet.happy());
@@ -312,28 +312,25 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentIntent(pendingIntent);
     }
 
-
-
     private void savePetStats(SharedPreferences.Editor e) {
-        e.putInt("PET_FED",pet.fed());
-        e.putInt("PET_HAPPY",pet.happy());
-        e.putInt("PET_SOCIAL",pet.social());
-        e.putInt("PET_LOVE",pet.love());
-        e.putInt("PET_FIT",pet.fit());
         e.putString("PET_BORN",pet.getBorn());
+        e.putInt("PET_SOCIAL",pet.social());
+        e.putInt("PET_HAPPY",pet.happy());
+        e.putInt("PET_LOVE",pet.love());
+        e.putInt("PET_FED",pet.fed());
+        e.putInt("PET_FIT",pet.fit());
 
         e.apply();
     }
 
     private Pet fetchPet() {
         pet = new Pet();
-        pet.setStatFed(settings.getInt("PET_FED",pet.fed()));
-        pet.setStatHappy(settings.getInt("PET_HAPPY",pet.happy()));
         pet.setStatSocial(settings.getInt("PET_SOCIAL",pet.social()));
-        pet.setStatLove(settings.getInt("PET_LOVE",pet.love()));
-        pet.setStatFit(settings.getInt("PET_FIT",pet.fit()));
+        pet.setStatHappy(settings.getInt("PET_HAPPY",pet.happy()));
         pet.setBorn(settings.getString("PET_BORN",pet.getBorn()));
+        pet.setStatLove(settings.getInt("PET_LOVE",pet.love()));
+        pet.setStatFed(settings.getInt("PET_FED",pet.fed()));
+        pet.setStatFit(settings.getInt("PET_FIT",pet.fit()));
         return pet;
-
     }
 }

@@ -290,7 +290,6 @@ public class ThirdActivity extends AppCompatActivity {
         score = 0;
         scoreLabel.setText("Score : 0");
 
-
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -311,7 +310,6 @@ public class ThirdActivity extends AppCompatActivity {
         soundPlayer.stop();
         finish();
     }
-
 
     @Override
     public void onBackPressed() {

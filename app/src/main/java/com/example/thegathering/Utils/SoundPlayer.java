@@ -8,7 +8,6 @@ import android.os.Build;
 
 import com.example.thegathering.R;
 
-
 public class SoundPlayer {
     private AudioAttributes audioAttributes;
     final int SOUND_POOL_MAX = 3;
@@ -59,8 +58,7 @@ public class SoundPlayer {
     public void playSaxGuy() {
         soundPool.play(saxGuySound, 1.0f, 1.0f, 1, -1, 1.0f);
     }
-    public void stop() {
-        soundPool.autoPause();
-    }
+
+    public void stop() { soundPool.autoPause(); }
 }
 

@@ -3,8 +3,8 @@ package com.example.thegathering.Utils;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
-
 import com.example.thegathering.First.FirstGameView;
+import java.util.Arrays;
 
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
@@ -14,7 +14,6 @@ public class MainThread extends Thread {
 
     private int targetFPS = 60;
     private long averageFPS;
-
 
     public MainThread(SurfaceHolder surfaceHolder, FirstGameView gameView) {
 
@@ -61,7 +60,7 @@ public class MainThread extends Thread {
 
             try {
                 this.sleep(waitTime);
-            } catch (Exception e) {}
+            } catch (Exception e) {Log.d("MainThread", Arrays.toString(e.getStackTrace()));}
 
             totalTime += System.nanoTime() - startTime;
             frameCount++;

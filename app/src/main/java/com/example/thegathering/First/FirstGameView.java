@@ -26,7 +26,6 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
     private FirstGameCharSprite characterSprite;
     public FirstGamePipeSprite pipe1, pipe2, pipe3;
 
-
     public static int heroSize = 200;
     public static int gapHeight = 500;
     public static int velocity = 8;

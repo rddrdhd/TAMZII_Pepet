@@ -46,7 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FourthActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-   // private CameraBridgeViewBase mOpenCvCameraView;
+
     private static final String TAG = "OpenCV";
     private CascadeClassifier cascadeClassifier;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -63,7 +63,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
     int processFaceID;
     Button camButton;
     Button saveButt;
-    Spinner spinner;
+    Spinner dropdown;
     TextView tw;
 
     private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"};
@@ -82,7 +82,6 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,10 +99,10 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         imageView = findViewById(R.id.imageView);
         camButton = findViewById(R.id.camButton);
         saveButt=findViewById(R.id.button4);
-        spinner = findViewById(R.id.photoSpinner);
+        dropdown = findViewById(R.id.photoSpinner);
 
         tw.setText("Take a photo of some face(s). Pepe likes to be with friends, more faces = more socialized Pepe!");
-        spinner.setVisibility(View.GONE);
+        dropdown.setVisibility(View.GONE);
         saveButt.setVisibility(View.GONE);
         processFaceID = R.drawable.face_square;
     }
@@ -186,17 +185,16 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                         R.array.faces_array, android.R.layout.simple_spinner_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(this);
-                spinner.setVisibility(View.VISIBLE);
+                dropdown.setAdapter(adapter);
+                dropdown.setOnItemSelectedListener(this);
 
+                dropdown.setVisibility(View.VISIBLE);
                 saveButt.setVisibility(View.VISIBLE);
 
         } else {
             tw.setText("Something went wrong with capturing photo, please try it again");
         }
     }
-
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -280,8 +278,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         return bmOverlay;
     }
 
-    //tmp
-    public void save(View view){
+    public void save(View view) {
         Score.fourthGame += 20;
 
         String fileName = "PepePic"+new Date().getTime();
@@ -289,7 +286,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         Log.d("pic", fileName+" saved!");
     }
 
-    public void saveImage(Context context, Bitmap bitmap, String name, String extension){
+    public void saveImage(Context context, Bitmap bitmap, String name, String extension) {
         name = name + "." + extension;
 
         try {
