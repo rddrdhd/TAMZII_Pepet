@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     SharedPreferences settings;
     int delay = 10*1000; //Delay for 10 seconds
+    boolean notif_bad_flg, notif_good_flg;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        notif_bad_flg = false;
+        notif_good_flg = false;
 
         settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
 
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createPepeNotificationChannel();
-        //createPepeNotification();
+
     }
 
 
@@ -152,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
             pet.cheer(Score.firstGame);
             Score.firstGame = 0;
         }
+        if(Score.secondGame != 0){
+            pet.exercise(Score.secondGame);
+            Score.secondGame = 0;
+        }
         if(Score.thirdGame != 0){
             pet.feed(Score.thirdGame);
             Score.thirdGame = 0;
@@ -161,8 +168,31 @@ public class MainActivity extends AppCompatActivity {
             Score.fourthGame = 0;
         }
 
+        if (    pet.social() >90 &&
+                pet.fed()    >90 &&
+                pet.fit()    >90 &&
+                pet.love()   >90 &&
+                pet.happy()  >90 &&
+                notif_good_flg == false) {
+            notif_good_flg = true;
+            notif_bad_flg = false;
+            createPepeNotificationGood();
+        }
+
+        if (    pet.social() <10 ||
+                pet.fed()    <10 ||
+                pet.fit()    <10 ||
+                pet.love()   <10 ||
+                pet.happy()  <10 &&
+                notif_bad_flg == false) {
+            notif_good_flg = false;
+            notif_bad_flg = true;
+            createPepeNotificationBad();
+        }
+
         pb0.setProgress(pet.love());
         pb1.setProgress(pet.happy());
+        pb2.setProgress(pet.fit());
         pb3.setProgress(pet.fed());
         pb4.setProgress(pet.social());
     }
@@ -202,12 +232,33 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
-    public void createPepeNotification(){
+    public void createPepeNotificationGood(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        builder.setContentTitle("Love me, human!");
-        builder.setContentText("I would like to play some games w u");
+        builder.setContentTitle("You are great!");
+        builder.setContentText("I can see you really love your Pepe.");
         builder.setSmallIcon(R.drawable.happyicon);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.happyicon));
+        Notification notification = builder.build();
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(101, notification);
+
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1001, intent, 0);
+//Following will set the tap action
+        builder.setContentIntent(pendingIntent);
+    }
+
+    public void createPepeNotificationBad(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        builder.setContentTitle("I dont feel good!");
+        builder.setContentText("Please take care of me!");
+        builder.setSmallIcon(R.drawable.pepesad);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pepesad));
         Notification notification = builder.build();
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);

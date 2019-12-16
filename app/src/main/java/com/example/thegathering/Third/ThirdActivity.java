@@ -308,6 +308,16 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
     public void quitGame(View view) {
+        soundPlayer.stop();
         finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        gameOver();
+        soundPlayer.stop();
+        finish();
+        super.onBackPressed();
     }
 }
