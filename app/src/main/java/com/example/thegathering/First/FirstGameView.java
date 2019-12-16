@@ -70,9 +70,9 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         Score.firstGameRound = 0;
         Bitmap bmp, bmp1, bmp2, resized, resized1, resized2;
 
-        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.squarepepe);
-        bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.pipe);
-        bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.pipe);
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pepe_square);
+        bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.game_pipe);
+        bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.game_pipe);
 
         //character
         resized =  getResizedBitmap( bmp, heroSize, heroSize);
@@ -158,7 +158,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
                 Score.firstGame+=x;
             }
 
-            //Detect if the pipe has gone off the left of the
+            //Detect if the game_pipe has gone off the arrow_left of the
             //screen and regenerate further ahead
             if (pipe.xX + 500 < 0) {
                 int value1 = r.nextInt(500);

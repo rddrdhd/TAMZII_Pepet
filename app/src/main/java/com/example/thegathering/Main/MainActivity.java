@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     SharedPreferences settings;
     int delay = 10*1000; //Delay for 10 seconds
-    boolean notif_bad_flg, notif_good_flg;
+    boolean bad_flg, good_flg;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        notif_bad_flg = false;
-        notif_good_flg = false;
+        bad_flg = false;
+        good_flg = false;
 
         settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
 
@@ -75,11 +75,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     t[0] = System.currentTimeMillis();
-                    imgPet.setImageResource(R.drawable.happypepe);
+                    int x = bad_flg? R.drawable.pepe_sad :R.drawable.pepe_happy;
+
+
+                            imgPet.setImageResource(x);
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     t[1] = System.currentTimeMillis();
-                    imgPet.setImageResource(R.drawable.smilepepe);
+                    int x = bad_flg? R.drawable.pepe_cry : R.drawable.pepe_smile;
+                    imgPet.setImageResource(x);
 
                     pet.love((int)(t[1]-t[0])/666); //hold longer than 0.66 sec
                 }
@@ -172,22 +176,24 @@ public class MainActivity extends AppCompatActivity {
                 pet.fed()    >90 &&
                 pet.fit()    >90 &&
                 pet.love()   >90 &&
-                pet.happy()  >90 &&
-                notif_good_flg == false) {
-            notif_good_flg = true;
-            notif_bad_flg = false;
+                pet.happy()  >90 ) {
+            good_flg = true;
+            bad_flg = false;
             createPepeNotificationGood();
+        } else {
+            good_flg = false;
         }
 
         if (    pet.social() <10 ||
                 pet.fed()    <10 ||
                 pet.fit()    <10 ||
                 pet.love()   <10 ||
-                pet.happy()  <10 &&
-                notif_bad_flg == false) {
-            notif_good_flg = false;
-            notif_bad_flg = true;
+                pet.happy()  <10 ) {
+            good_flg = false;
+            bad_flg = true;
             createPepeNotificationBad();
+        } else {
+            bad_flg = false;
         }
 
         pb0.setProgress(pet.love());
@@ -236,8 +242,8 @@ public class MainActivity extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle("You are great!");
         builder.setContentText("I can see you really love your Pepe.");
-        builder.setSmallIcon(R.drawable.happyicon);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.happyicon));
+        builder.setSmallIcon(R.drawable.pepe_icon_happy);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pepe_icon_happy));
         Notification notification = builder.build();
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
@@ -257,8 +263,8 @@ public class MainActivity extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle("I dont feel good!");
         builder.setContentText("Please take care of me!");
-        builder.setSmallIcon(R.drawable.pepesad);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pepesad));
+        builder.setSmallIcon(R.drawable.pepe_cry);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pepe_cry));
         Notification notification = builder.build();
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);

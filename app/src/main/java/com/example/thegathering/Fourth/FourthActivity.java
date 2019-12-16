@@ -108,30 +108,34 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         saveButt.setVisibility(View.GONE);
 
 
+        processFaceID = R.drawable.face_square;
+
+
     }
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         String str = parent.getItemAtPosition(pos).toString();
+
         if(str.equals("Pepe")){
-            processFaceID = R.drawable.pepefacefront;
+            processFaceID = R.drawable.face_pepe;
         } else if(str.equals("Trollface")){
-            processFaceID = R.drawable.troll;
+            processFaceID = R.drawable.face_troll;
         } else if(str.equals("FUUUUUUU")){
-            processFaceID = R.drawable.fuuuu;
+            processFaceID = R.drawable.face_fuuu;
         } else if(str.equals("Me gusta")){
-            processFaceID = R.drawable.megusta;
+            processFaceID = R.drawable.face_megusta;
         } else if(str.equals("Smiley")){
-            processFaceID = R.drawable.smile;
+            processFaceID = R.drawable.face_smile;
         } else if(str.equals("Smiley (transparent)")){
-            processFaceID = R.drawable.smiletrans;
+            processFaceID = R.drawable.face_smile_transparent;
         }else if(str.equals("Square")){
-            processFaceID = R.drawable.square;
+            processFaceID = R.drawable.face_square;
         }
         processImage();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        processFaceID = R.drawable.pepefacefront;
+        processFaceID = R.drawable.face_square;
     }
 
     @Override

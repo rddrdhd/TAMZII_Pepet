@@ -80,8 +80,8 @@ public class ThirdActivity extends AppCompatActivity {
         scoreLabel = findViewById(R.id.scoreLabel3);
         highScoreLabel = findViewById(R.id.highScoreLabel3);
 
-        imagePepeLeft = getResources().getDrawable(R.drawable.hungry);
-        imagePepeRight = getResources().getDrawable(R.drawable.hungry2);
+        imagePepeLeft = getResources().getDrawable(R.drawable.game_pepe_hungry);
+        imagePepeRight = getResources().getDrawable(R.drawable.game_pepe_hungry2);
 
         // High Score
         settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
