@@ -50,7 +50,7 @@
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/dancingpepe" />
+                android:src="@drawable/pepe_dancing" />
 
             <TextView
                 android:id="@+id/textView"
@@ -75,28 +75,28 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/left" />
+            app:srcCompat="@drawable/arrow_left" />
 
         <ImageView
             android:id="@+id/arrowRight"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/right" />
+            app:srcCompat="@drawable/arrow_right" />
 
         <ImageView
             android:id="@+id/arrowUp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/up" />
+            app:srcCompat="@drawable/arrow_up" />
 
         <ImageView
             android:id="@+id/arrowDown"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/down" />
+            app:srcCompat="@drawable/arrow_down" />
 
         <LinearLayout
             android:id="@+id/startLayout2"

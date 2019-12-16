@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Third.ThirdActivity"
     android:orientation="vertical"
-    android:background="@drawable/pond">
+    android:background="@drawable/game_pond">
 
     <TextView
         android:id="@+id/scoreLabel3"
@@ -49,28 +49,28 @@
             android:id="@+id/pepeThird"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/pepebeer"
+            android:src="@drawable/pepe_beer"
             android:layout_gravity="bottom"/>
 
         <ImageView
             android:id="@+id/black"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/wasp"
+            android:src="@drawable/game_wasp"
             android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/item"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/fly"
+            android:src="@drawable/game_fly"
             android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/boost"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/mouse"
+            android:src="@drawable/game_mouse"
             android:visibility="invisible"/>
 
         <LinearLayout
