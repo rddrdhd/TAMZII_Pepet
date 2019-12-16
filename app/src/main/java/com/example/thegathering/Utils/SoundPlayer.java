@@ -17,6 +17,7 @@ public class SoundPlayer {
     private static int hitGoodItemSound;
     private static int hitBetterItemSound;
     private static int hitBadItemSound;
+    private static int saxGuySound;
 
     public SoundPlayer(Context context) {
 
@@ -40,6 +41,7 @@ public class SoundPlayer {
         hitGoodItemSound = soundPool.load(context, R.raw.bite, 1);
         hitBetterItemSound = soundPool.load(context, R.raw.burp, 1);
         hitBadItemSound = soundPool.load(context, R.raw.punch, 1);
+        saxGuySound = soundPool.load(context, R.raw.e_s_g, 1);
     }
 
     public void playHitGoodItemSound() {
@@ -52,6 +54,13 @@ public class SoundPlayer {
 
     public void playHitBadItemSound() {
         soundPool.play(hitBadItemSound, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+    public void playSaxGuy() {
+        soundPool.play(saxGuySound, 1.0f, 1.0f, 1, -1, 1.0f);
+    }
+    public void stop() {
+        soundPool.autoPause();
     }
 }
 

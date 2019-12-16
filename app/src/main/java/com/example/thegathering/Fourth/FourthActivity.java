@@ -303,7 +303,7 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
             fOut = new FileOutputStream(file);
 
             Bitmap pictureBitmap = finalFace; // obtaining the Bitmap
-            pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+            pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut); // saving the Bitmap to a file compressed as a JPEG with 100% compression rate
             fOut.flush(); // Not really required
             fOut.close(); // do not forget to close the stream
 
