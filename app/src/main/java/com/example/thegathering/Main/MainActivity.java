@@ -30,6 +30,8 @@ import com.example.thegathering.Second.SecondActivity;
 import com.example.thegathering.Third.ThirdActivity;
 import com.example.thegathering.Utils.Score;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
     Pet pet;
     ProgressBar pb0, pb1, pb2, pb3, pb4;
@@ -73,17 +75,26 @@ public class MainActivity extends AppCompatActivity {
         imgPet.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     t[0] = System.currentTimeMillis();
-                    int x = bad_flg? R.drawable.pepe_sad :R.drawable.pepe_happy;
-
-
-                            imgPet.setImageResource(x);
-                }
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    t[1] = System.currentTimeMillis();
-                    int x = bad_flg? R.drawable.pepe_cry : R.drawable.pepe_smile;
+                    int x = bad_flg ? R.drawable.pepe_sad   : R.drawable.pepe_happy;
+                    x = pet.dead()  ? R.drawable.pepe_dead  : x;
                     imgPet.setImageResource(x);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    t[1] = System.currentTimeMillis();
+                    int x = bad_flg ? R.drawable.pepe_cry   : R.drawable.pepe_smile;
+                    x = pet.dead()  ? R.drawable.pepe_dead  : x;
+                    imgPet.setImageResource(x);
+                    if(pet.dead()) {
+                        try {
+                            TimeUnit.SECONDS.sleep(3);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        pet = new Pet();
+
+                    }
 
                     pet.love((int)(t[1]-t[0])/666); //hold longer than 0.66 sec
                 }
@@ -91,9 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         createPepeNotificationChannel();
-
     }
 
 
@@ -131,43 +140,43 @@ public class MainActivity extends AppCompatActivity {
 
     /* ****************************************************************************************** */
 
-    public void firstAct(View view){
+    public void firstAct(View view) {
         Intent i = new Intent(this, FirstActivity.class);
         startActivity(i);
     }
 
-    public void secondAct(View view){
+    public void secondAct(View view) {
         Intent i = new Intent(this, SecondActivity.class);
         startActivity(i);
     }
 
-    public void thirdAct(View view){
+    public void thirdAct(View view) {
         Intent i = new Intent(this, ThirdActivity.class);
         startActivity(i);
     }
 
-    public void fourthAct(View view){
+    public void fourthAct(View view) {
         Intent i = new Intent(this, FourthActivity.class);
         startActivity(i);
     }
 
     /* ****************************************************************************************** */
 
-    public void updateProgressBars(){
+    public void updateProgressBars() {
 
-        if(Score.firstGame != 0){
+        if (Score.firstGame != 0) {
             pet.cheer(Score.firstGame);
             Score.firstGame = 0;
         }
-        if(Score.secondGame != 0){
+        if (Score.secondGame != 0) {
             pet.exercise(Score.secondGame);
             Score.secondGame = 0;
         }
-        if(Score.thirdGame != 0){
+        if (Score.thirdGame != 0) {
             pet.feed(Score.thirdGame);
             Score.thirdGame = 0;
         }
-        if(Score.fourthGame != 0){
+        if (Score.fourthGame != 0) {
             pet.socialize(Score.fourthGame);
             Score.fourthGame = 0;
         }
@@ -176,25 +185,26 @@ public class MainActivity extends AppCompatActivity {
                 pet.fed()    >90 &&
                 pet.fit()    >90 &&
                 pet.love()   >90 &&
-                pet.happy()  >90 ) {
+                pet.happy()  >90 &&
+                !good_flg   ) {
             good_flg = true;
             bad_flg = false;
             createPepeNotificationGood();
-        } else {
-            good_flg = false;
         }
 
-        if (    pet.social() <10 ||
+        if (   (pet.social() <10 ||
                 pet.fed()    <10 ||
                 pet.fit()    <10 ||
                 pet.love()   <10 ||
-                pet.happy()  <10 ) {
+                pet.happy()  <10)&&
+                !bad_flg    ) {
             good_flg = false;
             bad_flg = true;
             createPepeNotificationBad();
-        } else {
-            bad_flg = false;
         }
+
+        if(pet.social()+pet.fed()+pet.fit()+pet.love()+pet.happy()<10)
+            pet.die();
 
         pb0.setProgress(pet.love());
         pb1.setProgress(pet.happy());
@@ -210,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
     //User visible Channel Name
     public static final String CHANNEL_NAME = "Notification Channel";
 
-    public void createPepeNotificationChannel(){
+    public void createPepeNotificationChannel() {
 // Importance applicable to all the notifications in this Channel
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
 //Notification channel should only be created for devices running Android 26
@@ -238,10 +248,11 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
-    public void createPepeNotificationGood(){
+
+    public void createPepeNotificationGood() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        builder.setContentTitle("You are great!");
-        builder.setContentText("I can see you really love your Pepe.");
+        builder.setContentTitle("Thank you!");
+        builder.setContentText("I can see you can take good care of me!.");
         builder.setSmallIcon(R.drawable.pepe_icon_happy);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pepe_icon_happy));
         Notification notification = builder.build();
@@ -259,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentIntent(pendingIntent);
     }
 
-    public void createPepeNotificationBad(){
+    public void createPepeNotificationBad() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle("I dont feel good!");
         builder.setContentText("Please take care of me!");
@@ -280,9 +291,30 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentIntent(pendingIntent);
     }
 
+    public void createPepeNotificationDead() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        builder.setContentTitle("Your Pepe is dead!");
+        builder.setContentText("Please take care of him next time!");
+        builder.setSmallIcon(R.drawable.pepe_dead);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.pepe_dead));
+        Notification notification = builder.build();
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(101, notification);
+
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1001, intent, 0);
+//Following will set the tap action
+        builder.setContentIntent(pendingIntent);
+    }
 
 
-    private void savePetStats(SharedPreferences.Editor e){
+
+    private void savePetStats(SharedPreferences.Editor e) {
         e.putInt("PET_FED",pet.fed());
         e.putInt("PET_HAPPY",pet.happy());
         e.putInt("PET_SOCIAL",pet.social());
@@ -293,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         e.apply();
     }
 
-    private Pet fetchPet(){
+    private Pet fetchPet() {
         pet = new Pet();
         pet.setStatFed(settings.getInt("PET_FED",pet.fed()));
         pet.setStatHappy(settings.getInt("PET_HAPPY",pet.happy()));

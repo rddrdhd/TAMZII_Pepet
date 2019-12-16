@@ -80,9 +80,6 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
         arrowLeft = findViewById(R.id.arrowLeft);
         arrowRight = findViewById(R.id.arrowRight);
         arrows = new ImageView[]{arrowUp, arrowLeft, arrowRight, arrowDown};
-        for (ImageView arrow : arrows) {
-            arrow.setY(-300.0f);
-        }
 
         settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
         highScore = settings.getInt("HIGH_SCORE_SECOND", 0);
@@ -92,11 +89,15 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         startLayout.setVisibility(View.VISIBLE);
+        highScoreLabel.setVisibility(View.GONE);
 
     }
     @Override
     protected void onResume() {
         super.onResume();
+        for (ImageView arrow : arrows) {
+            arrow.setY(-300.0f);
+        }
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -135,6 +136,7 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
             tilt = NO;
         }
     }
+
     public static ImageView getRandom(ImageView[] array) {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
@@ -145,14 +147,10 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
         start_flg = true;
         timeCount = 0;
         score = 0;
+
         soundPlayer.playSaxGuy();
 
         startLayout.setVisibility(View.INVISIBLE);
-
-//        arrowUp.setY(3000.0f);
-//        arrowDown.setY(3000.0f);
-//        arrowRight.setY(3000.0f);
-//        arrowLeft.setY(3000.0f);
 
         arrowRight.setVisibility(View.VISIBLE);
         arrowDown.setVisibility(View.VISIBLE);
@@ -188,8 +186,7 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
     }
 
     private void logic(){
-//TODO
-        if(arrow == null)
+        if (arrow == null)
             arrow = getRandom(arrows);
         //arrowX = arrow.getX();
         arrowY = arrow.getY();
@@ -201,13 +198,11 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
         float arrowCenterY = arrowY + arrow.getHeight()/2;
 
         if (hitCheck(arrowCenterY)){
-            if(arrow == arrowDown && tilt==DOWN) score += 1;
-            else if(arrow == arrowUp && tilt==UP) score += 1;
-            else if(arrow == arrowLeft && tilt==LEFT) score += 1;
-            else if(arrow == arrowRight && tilt==RIGHT) score += 1;
+            if (arrow == arrowDown && tilt==DOWN) score += 1;
+            else if (arrow == arrowUp && tilt==UP) score += 1;
+            else if (arrow == arrowLeft && tilt==LEFT) score += 1;
+            else if (arrow == arrowRight && tilt==RIGHT) score += 1;
             else score -= 1+(int)score/10;
-            //arrowY = frameHeight+100;
-            //arrowX = new Random().nextInt(frameWidth-200)+200;
 
         }
 
@@ -223,16 +218,16 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
         if (score <= 100) progress.setProgress(score);
         scoreLabel.setText("Score : " + score);
 
-        if(score<0 || score > 100){
+        if (score<0 || score > 100) {
             gameOver();
         }
 
     }
-    public boolean hitBottom(float y){
+    public boolean hitBottom(float y) {
         return y > frameHeight;
     }
 
-    public boolean hitCheck(float y){
+    public boolean hitCheck(float y) {
         return y <= frameHeight && progress.getY() <= y;
     }
 
@@ -242,6 +237,9 @@ public class SecondActivity extends AppCompatActivity implements SensorEventList
         timer = null;
         start_flg = false;
 
+        for (ImageView arrow : arrows) {
+            arrow.setY(-300.0f);
+        }
 
         soundPlayer.stop();
 

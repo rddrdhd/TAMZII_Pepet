@@ -42,7 +42,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         setFocusable(true);
     }
 
-    public void update(){
+    public void update() {
         logic();
         characterSprite.update();
         pipe1.update();
@@ -152,7 +152,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
                     && characterSprite.x + heroSize > pipe.xX
                     && characterSprite.x < pipe.xX + 500) {
                 resetLevel();
-            } else if(characterSprite.x + 5 > pipe.xX && characterSprite.x - 5 < pipe.xX) {
+            } else if (characterSprite.x + 5 > pipe.xX && characterSprite.x - 5 < pipe.xX) {
                 int x = r.nextInt(5);
                 Score.firstGameRound+=x;
                 Score.firstGame+=x;
@@ -189,7 +189,7 @@ public class FirstGameView extends android.view.SurfaceView implements android.v
         pipe3.xX = 3200;
         pipe3.yY = 250;
 
-        if(Score.firstGameRound>Score.firstGameRecord) Score.firstGameRecord=Score.firstGameRound;
+        if (Score.firstGameRound>Score.firstGameRecord) Score.firstGameRecord=Score.firstGameRound;
         Score.firstGameRound = 0;
     }
 }

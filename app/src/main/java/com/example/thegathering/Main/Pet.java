@@ -6,6 +6,7 @@ import java.util.Random;
 public class Pet {
     public String name;
     private String born;
+    private boolean dead;
 
     private int max_stat_value = 100;
     private int min_stat_value = 0;
@@ -24,6 +25,7 @@ public class Pet {
         this.statLove = 80;
         this.statFit = 80;
         this.born = new Timestamp(System.currentTimeMillis()).toString();
+        this.dead = false;
     }
 
     void decreaseStats(){
@@ -57,7 +59,7 @@ public class Pet {
     }
 
     private int increaseStat(int stat, int value){
-        if(stat+value <= max_stat_value && stat+value > min_stat_value)
+        if (stat+value <= max_stat_value && stat+value > min_stat_value)
             stat+=value;
         else
             stat = value>0?max_stat_value:min_stat_value;
@@ -77,6 +79,7 @@ public class Pet {
         return this.statLove;
     }
     int fit() {return this.statFit;}
+    boolean dead() {return this.dead;}
     String getBorn() {
         return born;
     }
@@ -99,5 +102,9 @@ public class Pet {
     }
     void setBorn(String born) {
         this.born = born;
+    }
+
+    void die(){
+        dead = true;
     }
 }

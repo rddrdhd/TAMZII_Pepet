@@ -43,7 +43,7 @@ public class FirstActivity extends Activity {
         gw.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(TAG, "onTouch");
-                if(Score.firstGameRound>Score.firstGameRecord){
+                if (Score.firstGameRound>Score.firstGameRecord) {
                     Score.firstGameRecord = Score.firstGameRound;
                     highScoreLabel.setText("High score: "+Score.firstGameRecord);
                     SharedPreferences.Editor editor = settings.edit();
@@ -51,7 +51,7 @@ public class FirstActivity extends Activity {
                     editor.commit();
                 }
                 scoreLabel.setText("Score: "+String.valueOf(Score.firstGameRound));
-                if(Score.firstGameRound > Score.firstGameRecord){
+                if (Score.firstGameRound > Score.firstGameRecord) {
                     highScoreLabel.setText("High Score : " + Score.firstGameRecord);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt("HIGH_SCORE_FIRST", Score.firstGameRecord);

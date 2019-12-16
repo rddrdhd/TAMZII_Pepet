@@ -8,7 +8,7 @@ public class FirstGameCharSprite {
     public int x, y;
     public int yVelocity = 5;
 
-    public FirstGameCharSprite(Bitmap bmp){
+    public FirstGameCharSprite(Bitmap bmp) {
         image = bmp;
         x = 100;
         y = 100;
@@ -18,7 +18,7 @@ public class FirstGameCharSprite {
         canvas.drawBitmap(image, x, y, null);
     }
 
-    public void update(){
+    public void update() {
         y += yVelocity;
     }
 

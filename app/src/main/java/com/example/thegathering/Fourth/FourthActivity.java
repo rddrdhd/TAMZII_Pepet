@@ -49,21 +49,22 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
    // private CameraBridgeViewBase mOpenCvCameraView;
     private static final String TAG = "OpenCV";
     private CascadeClassifier cascadeClassifier;
-    Button camButton;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
-    int processFaceID;
-    ImageView imageView;
-    MatOfRect gRects;
-    Mat gMat;
-    Rect[] facesArray;
-    Mat paintMat;
-    Spinner spinner;
-    TextView tw;
     Bitmap originalFace;
     Bitmap finalFace;
-    Button saveButt;
+    MatOfRect gRects;
+    Rect[] facesArray;
+    Mat paintMat;
+    Mat gMat;
+
     String currentPhotoPath;
+    ImageView imageView;
+    int processFaceID;
+    Button camButton;
+    Button saveButt;
+    Spinner spinner;
+    TextView tw;
 
     private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"};
 
@@ -72,13 +73,11 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
-                {
                     Log.d(TAG, "OpenCV loaded successfully");
-                } break;
+                    break;
                 default:
-                {
                     super.onManagerConnected(status);
-                } break;
+                    break;
             }
         }
     };
@@ -93,41 +92,38 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(permissions, requestCode);
         }
-        tw = findViewById(R.id.textViewPhoto);
-        imageView = findViewById(R.id.imageView);
-        camButton = findViewById(R.id.camButton);
-        tw.setText("Take a photo of some face(s). Pepe likes to be with friends, more faces = more socialized Pepe!");
 
         OpenCVLoader.initDebug();
         initializeOpenCVDependencies();
 
+        tw = findViewById(R.id.textViewPhoto);
+        imageView = findViewById(R.id.imageView);
+        camButton = findViewById(R.id.camButton);
+        saveButt=findViewById(R.id.button4);
         spinner = findViewById(R.id.photoSpinner);
 
+        tw.setText("Take a photo of some face(s). Pepe likes to be with friends, more faces = more socialized Pepe!");
         spinner.setVisibility(View.GONE);
-        saveButt=findViewById(R.id.button4);
         saveButt.setVisibility(View.GONE);
-
-
         processFaceID = R.drawable.face_square;
-
-
     }
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        String str = parent.getItemAtPosition(pos).toString();
 
-        if(str.equals("Pepe")){
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+        String str = parent.getItemAtPosition(pos).toString();
+        if (str.equals("Pepe")) {
             processFaceID = R.drawable.face_pepe;
-        } else if(str.equals("Trollface")){
+        } else if (str.equals("Trollface")) {
             processFaceID = R.drawable.face_troll;
-        } else if(str.equals("FUUUUUUU")){
+        } else if (str.equals("FUUUUUUU")) {
             processFaceID = R.drawable.face_fuuu;
-        } else if(str.equals("Me gusta")){
+        } else if (str.equals("Me gusta")) {
             processFaceID = R.drawable.face_megusta;
-        } else if(str.equals("Smiley")){
+        } else if (str.equals("Smiley")) {
             processFaceID = R.drawable.face_smile;
-        } else if(str.equals("Smiley (transparent)")){
+        } else if (str.equals("Smiley (transparent)")) {
             processFaceID = R.drawable.face_smile_transparent;
-        }else if(str.equals("Square")){
+        } else if (str.equals("Square")) {
             processFaceID = R.drawable.face_square;
         }
         processImage();
@@ -241,19 +237,16 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
         cascadeClassifier.detectMultiScale(gMat, gRects);
         facesArray = gRects.toArray();
         paintMat = gMat.clone();
-        if(facesArray!=null){
+        if (facesArray != null) {
             Score.fourthGame += 10*facesArray.length;
             for (Rect rect : facesArray) {
-                if(rect.height>200&rect.width>200){
+                if (rect.height>200&rect.width>200) {
 
                     Bitmap bm = Bitmap.createBitmap(paintMat.cols(), paintMat.rows(), Bitmap.Config.ARGB_8888);
                     Utils.matToBitmap(paintMat, bm);
                 }
             }
         }
-
-
-
     }
 
     public void processImage() {
@@ -266,10 +259,9 @@ public class FourthActivity extends AppCompatActivity implements AdapterView.OnI
             Bitmap smile = BitmapFactory.decodeResource(this.getResources(),
                     processFaceID);
 
-            if(rect.height>200 && rect.width>200){
+            if (rect.height>200 && rect.width>200) {
 
                 smile = Bitmap.createScaledBitmap(smile, rect.width, rect.height, false);
-
                 face = overlay(face, smile, rect);
                 imageView.setImageBitmap(face);
             }
