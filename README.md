@@ -2,6 +2,7 @@
 Tamagotchi-like application with minigames for school course TAMZ II created in Android Studio.
 
 Main activity is frog pet with stats. You can fill the stats by playing minigames:
+* fill Happy stat with playing Flappy Pepe
 * fill Fed stat with catching flies and beers. Avoid wasps! (hold to move right, release to move left)
 * fill Social stat with taking selfies and put meme stickers over faces (auto face detection)
 * fill Love stat by petting your frog
