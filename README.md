@@ -1,7 +1,12 @@
 # Pepet
 Tamagotchi-like application with minigames for school course TAMZ II created in Android Studio.
 
-Main activity is pet with stats. You can fill the stats by playing minigames
+Main activity is frog pet with stats. You can fill the stats by playing minigames:
+* fill Fed stat with catching flies and beers. Avoid wasps! (hold to move right, release to move left)
+* fill Social stat with taking selfies and put meme stickers over faces (auto face detection)
+* fill Love stat by petting your frog
+* fill Fit stat by dancing to Gandalf Saxguy music (when arrow is hitting bottom, tilt your phone that way)
+
 
 This app is in Java and uses
 * `Camera` and [OpenCV lib](https://github.com/opencv/opencv/tree/3.4.7) for increasing Social stat  
