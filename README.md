@@ -3,7 +3,7 @@ Tamagotchi-like application with minigames for school course TAMZ II created in 
 
 Main activity is frog pet with stats. You can fill the stats by playing minigames:
 * fill Love stat by petting your frog
-![Main screen](pics/Screenshot_2021-02-11-11-59-23-72.jpg){:width="150px"}
+<img src="url('pics/Screenshot_2021-02-11-11-59-23-72.jpg')" width="100" height="100" alt="Main screen">
 * fill Happy stat with playing Flappy Pepe
 ![Main screen](pics/Screenshot_2021-02-11-11-59-44-59.jpg){:width="150px"}
 * fill Fed stat with catching flies and beers. Avoid wasps! (hold to move right, release to move left)
