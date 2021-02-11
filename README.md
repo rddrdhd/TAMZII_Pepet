@@ -3,15 +3,15 @@ Tamagotchi-like application with minigames for school course TAMZ II created in 
 
 Main activity is frog pet with stats. You can fill the stats by playing minigames:
 * fill Love stat by petting your frog
-![Main screen](pics/Screenshot_2021-02-11-11-59-23-72.jpg)
+![Main screen](pics/Screenshot_2021-02-11-11-59-23-72.jpg =250x)
 * fill Happy stat with playing Flappy Pepe
-![Main screen](pics/Screenshot_2021-02-11-11-59-44-59.jpg)
+![Main screen](pics/Screenshot_2021-02-11-11-59-44-59.jpg =250x)
 * fill Fed stat with catching flies and beers. Avoid wasps! (hold to move right, release to move left)
-![Feeding minigame](pics/Screenshot_2021-02-11-12-00-16-80.jpg)
+![Feeding minigame](pics/Screenshot_2021-02-11-12-00-16-80.jpg =250x)
 * fill Social stat with taking selfies and put meme stickers over faces (auto face detection)
-![Social minigame](pics/Screenshot_2021-02-11-12-00-53-72.jpg)
+![Social minigame](pics/Screenshot_2021-02-11-12-00-53-72.jpg =250x)
 * fill Fit stat by dancing to Gandalf Saxguy music (when arrow is hitting bottom, tilt your phone that way)
-![Dancing minigame](pics/Screenshot_2021-02-11-11-59-56-21.jpg)
+![Dancing minigame](pics/Screenshot_2021-02-11-11-59-56-21.jpg =250x)
 
 This app is in Java and uses
 * `Camera` and [OpenCV lib](https://github.com/opencv/opencv/tree/3.4.7) for increasing Social stat  
